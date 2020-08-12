@@ -23,9 +23,8 @@ This function allows you to classify which of your sequences will be tested as f
 This function makes use of a list of species that you consider to be foreground and outputs a csv for each gene you are testing.
 }
 \examples{
-\dontrun{fast.classify(gene.list = c("RBFOX1", "FOXP2"), suffix = ".fasta", foreground.species = "homo_sapiens")}
-}
-\seealso{
-\link[selectionr]{extract.tag.tree}
+\dontrun{
+fast.classify(gene.list = c("RBFOX1", "FOXP2"),
+ suffix = ".fasta", foreground.species = "homo_sapiens")}
 }
 \keyword{foreground}

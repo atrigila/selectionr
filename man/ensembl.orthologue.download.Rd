@@ -7,6 +7,7 @@
 ensembl.orthologue.download(
   server = "https://jan2020.rest.ensembl.org",
   gene.name,
+  target_species = "human",
   target_taxon,
   download.directory
 )
@@ -15,6 +16,8 @@ ensembl.orthologue.download(
 \item{server}{Ensembl server}
 
 \item{gene.name}{A list of gene symbol names}
+
+\item{target_species}{Input target species to search for orthologues for your gene symbol. Defaults to human.}
 
 \item{target_taxon}{The NCBI number of the species you'd like to download}
 

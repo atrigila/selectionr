@@ -6,6 +6,10 @@ sample.alignment.2 <- readLines("/Users/Usuario/Desktop/ACSL4_final_unmask_align
 
 use_data(sample.alignment.2)
 
+#Generate vignette
+library(devtools)
+use_vignette("selectionr_vignette", title = "selectionr")
+
 
 # Generate package documentation
 devtools::document("/Users/Usuario/selectionr/")
