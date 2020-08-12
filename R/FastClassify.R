@@ -1,4 +1,4 @@
-#' Fast Foreground Classifier Function
+#' Fast Foreground Classifier
 #'
 #' This function allows you to classify which of your sequences will be tested as foreground lineages.
 #'

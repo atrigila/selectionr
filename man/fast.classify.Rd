@@ -2,7 +2,7 @@
 % Please edit documentation in R/FastClassify.R
 \name{fast.classify}
 \alias{fast.classify}
-\title{Fast Foreground Classifier Function}
+\title{Fast Foreground Classifier}
 \usage{
 fast.classify(gene.list, suffix, foreground.species)
 }
