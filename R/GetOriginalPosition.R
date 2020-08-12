@@ -1,24 +1,3 @@
-#' Original sequence positions
-#'
-#' This function allows you to get gene original sequence, without gaps and without masked nucleotides.
-#'
-#' This function makes use of a list of species that you consider to be foreground and outputs a csv for each gene you are testing.
-#' @param gene.name A list of multiple sequence alignments names
-#' @param input.directory Directory name where MSA is
-#' @param suffix Suffix/filetype of the files containing the multiple sequence alignments
-#' @param output.directory Where to output results
-#' @param classifier.directory Where are species classified into foreground and background
-#' @param beb.sites.directory Where are BEB sites stored
-#'
-#' @keywords foreground
-#' @importFrom Biostrings readDNAStringSet
-#' @import stringr
-#' @import seqinr
-#' @import Biostrings
-#' @import jsonlite
-#' @return A data frame with equivalences between masked and unmasked nucleotides
-
-
 
 
 ### Get gene original sequence, without gaps and without masked nucleotides

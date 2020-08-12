@@ -1,16 +1,3 @@
-#' Prank Aligner Wrapper
-#'
-#' This function allows you to align sequences with prank aligner.
-#'
-#'
-#' @param gene.list A list of multiple sequence alignments names
-#' @param input.file.directory Suffix/filetype of the files containing the multiple sequence alignments
-#' @param output.file.directory List of foreground species to be searched in the multiple sequences
-#' @param software.directory Software directory
-#' @keywords aligner
-#' @export
-#' @return An aligned fasta.
-
 prank.align <- function (gene.list, input.file.directory, output.file.directory, software.directory) {
   setwd(output.file.directory)
   file.copy(paste0(software.directory, "/prank"), output.file.directory)
