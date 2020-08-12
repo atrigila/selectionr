@@ -4,14 +4,14 @@
 \alias{write.FASTA}
 \title{Write a fasta file from Ensembl Orthologues}
 \usage{
-write.FASTA(JSON.object, out.file, name.gen, out.file2)
+write.FASTA(JSON.object, out.file, gene.name, out.file2)
 }
 \arguments{
 \item{JSON.object}{JSON object to be parsed}
 
 \item{out.file}{Output file name}
 
-\item{name.gen}{Gene name to be parsed}
+\item{gene.name}{Gene name to be parsed}
 
 \item{out.file2}{Not used parameter}
 }

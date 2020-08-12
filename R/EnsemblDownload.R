@@ -5,14 +5,14 @@
 #'
 #' @param JSON.object JSON object to be parsed
 #' @param out.file Output file name
-#' @param name.gen Gene name to be parsed
+#' @param gene.name Gene name to be parsed
 #' @param out.file2 Not used parameter
 #' @keywords writeFasta
 #' @importFrom jsonlite fromJSON
 #' @return A txt file containing sequences and species names in fasta format.
 
 
-write.FASTA <- function(JSON.object, out.file, name.gen, out.file2)  {
+write.FASTA <- function(JSON.object, out.file, gene.name, out.file2)  {
   tabla_human <- JSON.object$data$homologies[[1]]$source
   spp <- tabla_human$species[1]
   sequence <- tabla_human$align_seq[1]
@@ -21,9 +21,9 @@ write.FASTA <- function(JSON.object, out.file, name.gen, out.file2)  {
 
   result <- c(human_seq)
 
-  tmp <- JSON.object$data$homologies[[1]]
-  condition.filter <- tmp$type=="ortholog_one2one"
-  tabla.one2one <- tmp[condition.filter,]
+  homologues <- JSON.object$data$homologies[[1]]
+  condition.filter <- homologues$type=="ortholog_one2one"
+  tabla.one2one <- homologues[condition.filter,]
 
   tabla <- tabla.one2one$target
 
@@ -85,7 +85,9 @@ write.FASTA <- function(JSON.object, out.file, name.gen, out.file2)  {
 #' This function allows you to download 1-to-1 orthologues from Ensembl, given a target taxon.
 #'
 #'
-#' @param gene.list A list of gene symbol names
+#' @param server Ensembl server
+#' @param gene.name A list of gene symbol names
+#' @param target_species Input target species to search for orthologues for your gene symbol. Defaults to human.
 #' @param target_taxon The NCBI number of the species you'd like to download
 #' @param download.directory The directory where you'd like the downloaded multiple sequences to be stored
 #' @keywords download
@@ -94,35 +96,27 @@ write.FASTA <- function(JSON.object, out.file, name.gen, out.file2)  {
 #' @export ensembl.orthologue.download
 #' @return A txt file containing sequences and species names in fasta format.
 #' @examples
-#' \dontrun{ensembl.orthologue.download(gene.list = c("RBFOX1", "FOXP2"), target_taxon = "9798", download.directory = ".")}
+#' ensembl.orthologue.download(gene.name = "RBFOX1",
+#'  target_taxon = "9443", download.directory = ".")
 
 
 #   library(jsonlite)
 
 ensembl.orthologue.download <-
-function(gene.list, target_taxon, download.directory) {
-
-  corrects <- data.frame(gene.name = character(), tabla.species = character(), tabla.protein_id = character (), stringsAsFactors = FALSE)
-  incorrects <- data.frame(error.name = character(), stringsAsFactors = FALSE)
+function(server = "https://jan2020.rest.ensembl.org",
+         gene.name, target_species = "human", target_taxon, download.directory) {
 
 
+  corrects <- data.frame("gene.name" = character(), "tabla.species" = character(), "tabla.protein_id" = character (), stringsAsFactors = FALSE)
+  incorrects <- data.frame("error.name" = character(), stringsAsFactors = FALSE)
 
-  print( ifelse( missing(gene.list), 'Gene list to download orthologues not specified', 'Correctly specified gene list' ) )
-  print( ifelse( missing(target_taxon), 'Target taxon to search orthologues not specified', 'Correctly specified target taxon' ) )
-
-  setwd(download.directory)
-
-
-
-
-  for (gene.name in gene.list)
-  {
-
-    url.head <- 'https://jan2020.rest.ensembl.org/homology/symbol/human/'
+    #server <- "https://jan2020.rest.ensembl.org"
+    url.head <- '/homology/symbol/'
+  #  target_species <- 'human'
     url.taxon <-paste('?target_taxon=',target_taxon,';', sep="")
     url.tail <- 'content-type=application/json;sequence=cdna;type=orthologues'
     destfile.custom <- paste(gene.name, '.json', sep="")
-    url.custom <- paste(url.head, gene.name, url.taxon, url.tail, sep="")
+    url.custom <- paste(server, url.head,target_species, "/", gene.name, url.taxon, url.tail, sep="")
     print(url.custom)
 
     JSON.object <- tryCatch(fromJSON(url.custom),
@@ -130,8 +124,11 @@ function(gene.list, target_taxon, download.directory) {
                               print(paste("This gene does not exist:", gene.name))
                               return(NULL)}
                               )
-    salida <- paste(gene.name, ".fasta", sep ="")
-    salida2 <- paste(gene.name, ".csv", sep ="")
+    salida <- paste0(download.directory,"/", gene.name, ".fasta")
+    salida2 <- paste0(download.directory, "/", gene.name, ".csv")
+
+
+
     if (is.null(JSON.object)) {
       print ("JSON object is null")
       # HACER Error summary
@@ -140,12 +137,11 @@ function(gene.list, target_taxon, download.directory) {
       incorrects[new.error,1]<-gene.name
 
       } else {
-      correct <- write.FASTA(JSON.object, salida, gene.name, salida2)
+
+      correct <- selectionr:::write.FASTA(JSON.object = JSON.object, out.file = salida, gene.name =  gene.name, out.file2 = salida2)
       corrects <- rbind(corrects,correct) }
 
-    }
+
   Sys.sleep(1)
 
-write.table(corrects, "DownloadedOrthologues.txt", quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
-write.table(incorrects, "ErrorDownloading.txt", quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 }

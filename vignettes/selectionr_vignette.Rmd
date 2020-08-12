@@ -17,3 +17,13 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(selectionr)
 ```
+
+# How to use the selectionr package
+
+## Download orthologues from Ensembl
+To perform any selection analysis you'll first need a multiple sequences, such as 1-to-1 orthologues from a protein-coding gene. These are easily retrieved using the ensembl.orthologue.download function. This function requires the gene symbol or Ensembl gene ID from a target organism. The sequences for 1-to-1 orthologues will be searched against this database. Then, only species from the desired NCBI target taxon will be downloaded. In this example, we are downloading all primate 1-to-1 sequences, which correspond to the target_taxon 9443 to the current working directory. 
+
+```{r eval=FALSE, include=FALSE}
+ensembl.orthologue.download(gene.name = "RBFOX1", target_taxon = 9443, download.directory = ".")
+```
+

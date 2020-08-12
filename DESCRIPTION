@@ -8,7 +8,7 @@ Description: A series of tools and wrappers to work with multiple sequences and 
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr, stringr
+Imports: dplyr, stringr, Biostrings, httr, jsonlite
 Suggests: testthat,
     knitr,
     rmarkdown

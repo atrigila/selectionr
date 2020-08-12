@@ -4,10 +4,17 @@
 \alias{ensembl.orthologue.download}
 \title{Download Ensembl Orthologues}
 \usage{
-ensembl.orthologue.download(gene.list, target_taxon, download.directory)
+ensembl.orthologue.download(
+  server = "https://jan2020.rest.ensembl.org",
+  gene.name,
+  target_taxon,
+  download.directory
+)
 }
 \arguments{
-\item{gene.list}{A list of gene symbol names}
+\item{server}{Ensembl server}
+
+\item{gene.name}{A list of gene symbol names}
 
 \item{target_taxon}{The NCBI number of the species you'd like to download}
 
@@ -20,6 +27,7 @@ A txt file containing sequences and species names in fasta format.
 This function allows you to download 1-to-1 orthologues from Ensembl, given a target taxon.
 }
 \examples{
-\dontrun{ensembl.orthologue.download(gene.list = c("RBFOX1", "FOXP2"), target_taxon = "9798", download.directory = ".")}
+ensembl.orthologue.download(gene.name = "RBFOX1",
+ target_taxon = "9443", download.directory = ".")
 }
 \keyword{download}

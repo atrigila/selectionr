@@ -10,9 +10,10 @@
 #' @importFrom Biostrings readDNAStringSet
 #' @export
 #' @return A csv file containing species names and classification into foreground or background lineages. Useful for the \link[selectionr]{extract.tag.tree}.
-#' @seealso \link[selectionr]{extract.tag.tree}
 #' @examples
-#' \dontrun{fast.classify(gene.list = c("RBFOX1", "FOXP2"), suffix = ".fasta", foreground.species = "homo_sapiens")}
+#' \dontrun{
+#' fast.classify(gene.list = c("RBFOX1", "FOXP2"),
+#'  suffix = ".fasta", foreground.species = "homo_sapiens")}
 
 
 ## Fast foreground classifier
