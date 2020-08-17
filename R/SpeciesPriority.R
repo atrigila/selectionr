@@ -9,22 +9,19 @@
 #' @param download.directory Original directory where files are stored
 #' @param species_priority_table Table specifying which species should be prioritized
 #' @keywords subset
-#' @import Biostrings
-#' @export
+#' @importFrom Biostrings readDNAStringSet
+#' @importFrom utils write.table
+#' @importFrom utils read.table
+#' @export prioritize.species
 #' @return A fasta file with the selected species.
-#' @examples
-#' \dontrun{genomic.locator(ensembl.protein.ID = "ENSP00000430945", original.number = 1269)}
 
-
-select.subset <- function(gene.list, orthologue.selection.directory, download.directory, species_priority_table = "reemplazos.txt")
+prioritize.species <- function(gene.list, orthologue.selection.directory, download.directory, species_priority_table = "reemplazos.txt")
   {
 
   setwd(orthologue.selection.directory)
 
   #order.species.to.keep <- "reemplazos.txt"
   #file.copy(paste0(software.directory, "/", order.species.to.keep), orthologue.selection.directory)
-
-  library(Biostrings)
 
 
 
@@ -96,7 +93,7 @@ select.subset <- function(gene.list, orthologue.selection.directory, download.di
 
   # priority.table <- read.table("reemplazos.txt", fill = TRUE, stringsAsFactors = FALSE)
 
-  priority.table # Tabla con especies de reemplazo
+ # priority.table # Tabla con especies de reemplazo
 
   spp.ok <- read.csv("replacement_set.txt", stringsAsFactors = FALSE, na.strings = c("","NA")) # Leer especies presentes y faltantes por gen
 

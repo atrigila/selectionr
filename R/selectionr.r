@@ -1,6 +1,6 @@
-#' selectionr: Tools for working with MSA and Positive Selection Data Summaries
+#' selectionr: Tools for working with MSA and Positive Selection Data
 #'
-#' Easily necessary files to run a positive selection test
+#' Easily manage necessary files to run a positive selection test
 #'
 #' @docType package
 #' @name selectionr

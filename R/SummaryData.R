@@ -9,10 +9,10 @@
 #' @keywords summary
 #' @importFrom stringr str_extract
 #' @import dplyr
-#' @export summary.statistics.paml
+#' @export summ.statistics.paml
 #' @return A table with the selected sites for each gene
 
-summary.statistics.paml <- function (gene.list, Ho.directory, Ha.directory, summary.directory) {
+summ.statistics.paml <- function (gene.list, Ho.directory, Ha.directory, summary.directory) {
 
 
   summary.statistics.table <- data.frame(gene.name = character(), HaLnL = character(), HoLnL = character (), stringsAsFactors = FALSE)

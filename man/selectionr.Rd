@@ -4,7 +4,7 @@
 \name{selectionr}
 \alias{selectionr}
 \alias{selectionr-package}
-\title{selectionr: Tools for working with MSA and Positive Selection Data Summaries}
+\title{selectionr: Tools for working with MSA and Positive Selection Data}
 \description{
-Easily necessary files to run a positive selection test
+Easily manage necessary files to run a positive selection test
 }

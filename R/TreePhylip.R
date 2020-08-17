@@ -14,7 +14,6 @@
 #' @importFrom ape root
 #' @importFrom ape unroot
 #' @importFrom ape write.tree
-#' @import stats utils
 #' @export create.custom.species.tree
 #' @return A txt file containing trees and a phylip-like fasta file.
 

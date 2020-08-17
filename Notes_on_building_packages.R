@@ -36,7 +36,8 @@ build("/Users/Usuario/selectionr/")
 # Travis CI can be set up to run checks every time you update your code.
 
 #Unit tests
-
+# Writing unit tests moves your code from only writing smoke tests to be able to save your tests and
+# automate package testing.
 # Set up the test framework
 ## You can set up a test framework in a package using the function use_testthat().
 
@@ -90,5 +91,4 @@ test_that("data_summary() handles errors correctly", {
 test("datasummary")
 
 
-
-
+# Good book: https://leanpub.com/courses/jhu/cbds-rpackages/read/1
