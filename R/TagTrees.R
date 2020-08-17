@@ -1,6 +1,29 @@
+#' Tag trees
+#'
+#' This function allows you to tag trees in foreground or background lineages.
+#'
+#'
+#' @param gene.list A list of multiple sequence alignments names
+#' @param m0.directory The directory where your PAML m0 files are located
+#' @param classifier.directory The directory where csv files indicating which species are foreground and background.
+#' @param Ha.directory The directory where the alternative hypotesis of your PAML will be run
+#' @param Ho.directory The directory where the null hypotesis of your PAML will be run
+#' @keywords tag.trees
+#' @importFrom phytools read.newick
+#' @importFrom Biostrings readDNAStringSet
+#' @importFrom ape read.tree
+#' @importFrom stringr str_extract
+#' @importFrom stringr str_replace
+#' @importFrom ape write.tree
+#' @importFrom ape makeNodeLabel
+#' @export extract.tag.tree
+#' @return A txt file in the Ha and Ho directories containing the trees tagged with #1 in the foreground lineage.
+
+
+
 ##Tag trees in foreground lineages
 
-extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.directory, Ho.directory) 
+extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.directory, Ho.directory)
 {
   setwd(m0.directory)
   for (gene.name in gene.list) {
@@ -17,36 +40,35 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
     utiles2 <- paste(utiles2, sep = "", collapse = "")
     utiles2 <- trimws(utiles2)
     #tag tree in foreground
-    
-    tr <- read.tree(text = utiles2)
-    plot(tr, show.node.label = TRUE)
+
+    tr <- ape::read.tree(text = utiles2)
+    #plot(tr, show.node.label = TRUE)
     tr3 <- tr
-    
+
     all.spp <- tr$tip.label
-    
-    setwd(classifier.directory)
-    output.classified.gene <- paste0(gene.name, "_classification.csv")
+
+    output.classified.gene <- paste0(classifier.directory,gene.name, "_classification.csv")
     csv <- read.csv(output.classified.gene, sep = ";")
     colnames(csv) <- c("names", "class")
     csv[,"names"] <- tolower(csv[,"names"])
     csv <- csv[,c("names", "class")]
-    
+
     fore.spp <- c()
-    
+
     for  (species in all.spp) {
-      
-      
+
+
       if (csv[which(csv$names == species), 2] == "foreground") {
-        fore.spp <-  c(fore.spp, species)      
+        fore.spp <-  c(fore.spp, species)
       }
-      
+
     }
-    
+
     if (length(fore.spp) == 1) {
-     
+
       pattern <- paste0(fore.spp,": ", "[:digit:]", ".", "[:digit:]+")
      # pattern <- paste0("homo_sapiens: ", "[:digit:]", ".", "[:digit:]+")
-      str_view(utiles2, pattern)
+    #  str_view(utiles2, pattern)
       to.tag <- str_extract(utiles2, pattern)
       replacement <- paste0(to.tag, " #1")
       utiles3 <- str_replace(utiles2, to.tag, replacement)
@@ -58,26 +80,26 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
       file.copy(paste0(gene.name, ".phy"), Ha.directory)
       file.copy(paste0(gene.name, ".phy"), Ho.directory)
     } else {
-      tr3 <- makeNodeLabel(tr3, "u", nodeList = list("#1" = fore.spp))
-      plot(tr3, show.node.label = TRUE)
+      tr3 <- ape::makeNodeLabel(tr3, "u", nodeList = list("#1" = fore.spp))
+     # plot(tr3, show.node.label = TRUE)
       setwd(m0.directory)
       output.name <- paste0("tagged_mlc_M0_", gene.name, ".txt")
-      write.tree(tr3, file = output.name)
-      
+      ape::write.tree(tr3, file = output.name)
+
       file.copy(output.name, Ha.directory)
       file.copy(output.name, Ho.directory)
       file.copy(paste0(gene.name, ".phy"), Ha.directory)
       file.copy(paste0(gene.name, ".phy"), Ho.directory)
     }
-    
-    
-   
-    
+
+
+
+
    # file.remove(output.name)
   #  file.remove(paste0(gene.name, ".phy"))
-    
-    
+
+
   }
-  
-  
+
+
 }

@@ -18,7 +18,7 @@ devtools::document("/Users/Usuario/selectionr/")
 dir("/Users/Usuario/selectionr/man")
 
 # View the documentation for the fast.classify function
-help("ensembl.orthologue.download")
+help("extract.tag.tree")
 
 # Check your package
 check("/Users/Usuario/selectionr/")

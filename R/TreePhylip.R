@@ -8,29 +8,27 @@
 #' @param input.directory Where alignments are stored
 #' @param tree.output.directory Where trees are going to be written
 #' @keywords trees
-#' @import phytools
-#' @import Biostrings
-#' @import ape
-#' @import httr
-#' @import stringr
-#' @export
+#' @importFrom phytools read.newick
+#' @importFrom Biostrings readDNAStringSet
+#' @importFrom ape drop.tip
+#' @importFrom ape root
+#' @importFrom ape unroot
+#' @importFrom ape write.tree
+#' @import stats utils
+#' @export create.custom.species.tree
 #' @return A txt file containing trees and a phylip-like fasta file.
 
 
 
 create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.fas", input.directory, tree.output.directory)
 {
-  library("phytools")
-  library(Biostrings)
-  library(ape)
-  library(httr)
-  library(stringr)
+
 
   # Be careful here! Read the complete tree from the Ensembl version you are using
 
 
   setwd(tree.output.directory)
-  tree <- read.newick(url("https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"))
+  tree <- phytools::read.newick(url("https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"))
   tree$edge.length <- NULL
 
   for (gene.name in gene.list) {
@@ -40,23 +38,21 @@ create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.
     summary.error <-  data.frame("gene.name" = character(), stringsAsFactors = FALSE)
 
 
-    setwd(input.directory)
-    gene.name.omm <- paste0(gene.name, suffix)
+    gene.name.omm <- paste0(input.directory, gene.name, suffix)
     dna <- readDNAStringSet(gene.name.omm)
     tmp <- attributes(dna)$ranges
     species <- names(tmp)
     species
 
-    pruned.tree<-drop.tip(tree, tree$tip.label[-na.omit(match(species, tree$tip.label))])
-    write.tree(pruned.tree)
+    pruned.tree<-ape::drop.tip(tree, tree$tip.label[-na.omit(match(species, tree$tip.label))])
+    #ape::write.tree(pruned.tree)
     check <- length(species) == length(pruned.tree$tip.label)     #Sanity check species numb = tree tips numb = true
     check
-    unrooted.pruned.tree <- unroot(pruned.tree)
+    unrooted.pruned.tree <- ape::unroot(pruned.tree)
     destination.nwk <- paste(gene.name, '_pruned.tre', sep = "")
     file.destination.name <- paste0(tree.output.directory, destination.nwk)
 
-    setwd(tree.output.directory)
-    write.tree(unrooted.pruned.tree, file = destination.nwk)
+    ape::write.tree(unrooted.pruned.tree, file = file.destination.name)
 
     setwd(input.directory)
 
