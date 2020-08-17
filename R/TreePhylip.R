@@ -78,10 +78,8 @@ create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.
       summary.ok <- rbind(summary.ok,summary.gene.ok)
 
 
-
     } else {
-      print ("Error: Total alignment length not %% 3")
-      print(output.name)
+      warning(paste0("Total alignment length not %% 3 for: ", output.name))
       summary.gene.error <-  data.frame("gene.name" = as.character(gene.name),stringsAsFactors = FALSE)
       summary.error <- rbind(summary.error,summary.gene.error)
     }

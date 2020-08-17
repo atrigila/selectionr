@@ -19,16 +19,14 @@
 #' @export extract.tag.tree
 #' @return A txt file in the Ha and Ho directories containing the trees tagged with #1 in the foreground lineage.
 
-
-
-##Tag trees in foreground lineages
-
 extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.directory, Ho.directory)
 {
+
   setwd(m0.directory)
   for (gene.name in gene.list) {
-    #extract tree
-    #gene.name <- "RBFOX2"
+    if (file.exists(paste0("mlc_M0_", gene.name)) == FALSE){
+      stop("File does not exist.")
+    } else {  # Extract tree
     lines <- readLines(paste0("mlc_M0_", gene.name))
     lines.start.array <- startsWith(lines, "tree length =")
     pos.start <- which(lines.start.array == TRUE)
@@ -39,7 +37,8 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
     utiles2 <- lineas.utiles[pos.enters[2]:pos.enters[3]]
     utiles2 <- paste(utiles2, sep = "", collapse = "")
     utiles2 <- trimws(utiles2)
-    #tag tree in foreground
+
+    #Tag tree in foreground
 
     tr <- ape::read.tree(text = utiles2)
     #plot(tr, show.node.label = TRUE)
@@ -56,19 +55,15 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
     fore.spp <- c()
 
     for  (species in all.spp) {
-
-
       if (csv[which(csv$names == species), 2] == "foreground") {
         fore.spp <-  c(fore.spp, species)
       }
-
     }
 
     if (length(fore.spp) == 1) {
-
       pattern <- paste0(fore.spp,": ", "[:digit:]", ".", "[:digit:]+")
-     # pattern <- paste0("homo_sapiens: ", "[:digit:]", ".", "[:digit:]+")
-    #  str_view(utiles2, pattern)
+      # pattern <- paste0("homo_sapiens: ", "[:digit:]", ".", "[:digit:]+")
+      # str_view(utiles2, pattern)
       to.tag <- str_extract(utiles2, pattern)
       replacement <- paste0(to.tag, " #1")
       utiles3 <- str_replace(utiles2, to.tag, replacement)
@@ -98,6 +93,8 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
    # file.remove(output.name)
   #  file.remove(paste0(gene.name, ".phy"))
 
+
+    }
 
   }
 
