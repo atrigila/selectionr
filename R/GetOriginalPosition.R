@@ -1,32 +1,46 @@
+#' Get original positions in alignment before masking
+#'
+#' Use BEB sites obtained from a masked (trimmed) alignment and find the positions
+#'  in the original alignment. Useful when the starting aslignment was the CDS from
+#'  Ensembl. Therefore, sites are the original protein positions from the Ensembl protein
+#'  and are easily traceable. It also reports the most frequent aminoacid from the background
+#'  sequences (excluding gaps).
+#'
+#' @param gene.name Gene name (file name)
+#' @param input.directory Directory where the files are
+#' @param suffix Suffix for this file (".fasta", "_trimmed.fas", etc)
+#' @param output.directory Directory where the files will be written
+#' @param classifier.directory Directory where the species were classified
+#'  as foreground and background
+#' @param beb.sites.directory Directory where the mlc with
+#'  the BEB sites are located
+#'
+#' @importFrom jsonlite fromJSON
+#' @importFrom Biostrings readDNAStringSet
+#' @importFrom stringr str_remove str_count str_extract_all str_detect
+#' @importFrom stringr str_replace_all str_replace
+#' @importFrom seqinr translate read.fasta write.fasta
+#' @importFrom utils read.delim write.table read.csv
+#' @importFrom stats na.omit
+#'
+#'
+#'
+#' @return A table with Ensembl protein ID, original position and aminoacid and outgroup aminoacid
+#' @export positions.provean
 
-
-### Get gene original sequence, without gaps and without masked nucleotides
-
-#input.directory <- "/Users/Usuario/Desktop/selection/results extensive/results omm_macse_extensive/2. Align omm_macse_extensive/"
-#gene.name <- 'ADGRB1'
-#suffix <- '_final_align_NT.aln'
-#output.directory <- "/Users/Usuario/Desktop/"
-#maskFullFasta <- "/Users/Usuario/Desktop/selection/results extensive/results omm_macse_extensive/2. Align omm_macse_extensive/ADGRB1/ADGRB1_maskFull_detail.fasta"
-#beb.sites.directory <- "/Users/Usuario/Desktop/selection/results extensive/results omm_macse_extensive/9.Summary omm_macse_extensive/"
 positions.provean <- function(gene.name,
-                              input.directory = "/Users/Usuario/Desktop/selection/results extensive/results omm_macse_extensive/2. Align omm_macse_extensive/" ,
-                              suffix = '_final_align_NT.aln',
+                              input.directory,
+                              suffix,
                               output.directory ,
-                              classifier.directory = "/Users/Usuario/Desktop/selection/results extensive/results omm_macse_extensive/5. Classify omm_macse_extensive/",
-                              beb.sites.directory = "/Users/Usuario/Desktop/selection/results extensive/results omm_macse_extensive/9.Summary omm_macse_extensive/") {
+                              classifier.directory,
+                              beb.sites.directory) {
 
 
 
   # 0.1.  Set libraries and useful dataframes
-  library(stringr)
-  library(seqinr)
-  library(Biostrings)
-  library(jsonlite)
+
 
   print(gene.name)
-
-
-
   beb.sites.human.newnumber <- data.frame("Gene Name" = integer(),
                                           "ENSEMBL Protein ID" = character(),
                                           "Position number" = integer(),
@@ -51,7 +65,7 @@ positions.provean <- function(gene.name,
   url.custom <- paste(url.head, gene.name, url.taxon, url.tail, sep="")
   print(url.custom)
 
-  JSON.object <- tryCatch(fromJSON(url.custom),
+  JSON.object <- tryCatch(jsonlite::fromJSON(url.custom),
                           error = function (e) {
                             print(paste("This gene does not exist:", gene.name))
                             return(NULL)})
@@ -64,7 +78,7 @@ positions.provean <- function(gene.name,
 
   final.alignment <- paste0(input.directory,"/",gene.name,"/", gene.name, suffix)
 
-  final.align <- readDNAStringSet(final.alignment)
+  final.align <- Biostrings::readDNAStringSet(final.alignment)
   number.human <- which(names(final.align) == "homo_sapiens")
   second.name <- names(final.align[number.human + 1])
 
@@ -75,11 +89,11 @@ positions.provean <- function(gene.name,
   human.final.align.end <- endsWith(final.align, paste0(">",second.name))
   pos.end.final.align <- which(human.final.align.end == TRUE)
 
-  useful.lines.final.align <- str_remove(final.align[pos.start.final.align:pos.end.final.align], paste0(">",second.name))
+  useful.lines.final.align <- stringr::str_remove(final.align[pos.start.final.align:pos.end.final.align], paste0(">",second.name))
 
   split.useful.lines <- strsplit(useful.lines.final.align[2],"")
   letters <- split.useful.lines[[1]]
-  index.gaps <- which(str_detect(split.useful.lines[[1]], "-"))
+  index.gaps <- which(stringr::str_detect(split.useful.lines[[1]], "-"))
 
   sequence.minus.gaps <- letters[-index.gaps]
 
@@ -88,7 +102,7 @@ positions.provean <- function(gene.name,
   # 2.  Read the original masked sequence, select only the human sequence (tracing.file)
 
   maskFullFasta <- paste0(input.directory, "/", gene.name, "/", gene.name, "_maskFull_detail.fasta")
-  s <- readDNAStringSet(maskFullFasta)
+  s <- Biostrings::readDNAStringSet(maskFullFasta)
   second.name <- names(s)[2]
 
   maskFulldetail <- readLines(maskFullFasta)
@@ -98,23 +112,23 @@ positions.provean <- function(gene.name,
   human.maskfulldetail.end <- endsWith(maskFulldetail, paste0(">",second.name))
   pos.end <- which(human.maskfulldetail.end == TRUE)
 
-  useful.lines <- str_remove(maskFulldetail[pos.start:pos.end], paste0(">",second.name))
+  useful.lines <- stringr::str_remove(maskFulldetail[pos.start:pos.end], paste0(">",second.name))
 
   split.useful.lines <- strsplit(useful.lines[2],"")
   letters.masked <- split.useful.lines[[1]]
-  index.lowecase <- which(str_detect(letters.masked, "^[:lower:]+$"))
+  index.lowecase <- which(stringr::str_detect(letters.masked, "^[:lower:]+$"))
 
   sequence.minus.masked.nucleotides <- letters.masked[-index.lowecase]
 
   length(sequence.minus.masked.nucleotides)
 
-  print("Are ungapped and unmasked sequences the same?")
-  length(sequence.minus.gaps) == length(sequence.minus.masked.nucleotides) #sanity check
 
+  value <- length(sequence.minus.gaps) == length(sequence.minus.masked.nucleotides) #sanity check
+  message(paste0("Are ungapped and unmasked sequences the same? ", value))
   # 3. For both sequences (ungapped and unmasked), get their correspoding protein translation
 
   translate.gapped <- seqinr::translate(letters)
-  translate.gapped <- str_replace_all(translate.gapped, pattern = "X", replacement = "-")
+  translate.gapped <- stringr::str_replace_all(translate.gapped, pattern = "X", replacement = "-")
 
   translate.ungapped <- seqinr::translate(sequence.minus.gaps)
   translate.unmasked <- seqinr::translate(sequence.minus.masked.nucleotides)
@@ -128,15 +142,15 @@ positions.provean <- function(gene.name,
   sites.for.gene <- beb.sites.file[which(beb.sites.file$gene.name == gene.name),"BEBsites"]
 
   pattern <- "[:digit:]+[:space:]"
-  sites.ok <- str_extract_all(sites.for.gene, pattern)
+  sites.ok <- stringr::str_extract_all(sites.for.gene, pattern)
   sites.ok <- as.integer(unlist(sites.ok))
-  sites.ok <- str_replace(sites.ok, " ", ",")
+  sites.ok <- stringr::str_replace(sites.ok, " ", ",")
   sites.ok <- as.integer(sites.ok)
 
   # Get the outgroup seq
 
   classification <- paste0(classifier.directory, gene.name, "_classification.csv")
-  classification <- read.csv(classification, sep= ';', stringsAsFactors = FALSE)
+  classification <- utils::read.csv(classification, sep= ';', stringsAsFactors = FALSE)
 
   index.backgrounds <- which(classification$class == 'background')
   background.names <- classification$names[index.backgrounds]
@@ -152,16 +166,16 @@ positions.provean <- function(gene.name,
 
   # Translate the letters.masked taking care of the masked and unmasked sequences
 
-  replaced.lowercase <- str_replace_all(letters.masked,pattern = "^[:lower:]+$", "-")
+  replaced.lowercase <- stringr::str_replace_all(letters.masked,pattern = "^[:lower:]+$", "-")
   original.replaced.masked <- seqinr::translate(replaced.lowercase)
-  original.replaced.masked <- str_replace_all(original.replaced.masked, pattern = "X", replacement = "-")
+  original.replaced.masked <- stringr::str_replace_all(original.replaced.masked, pattern = "X", replacement = "-")
 
 
 
   # 5. Read BEB sites and find them in the original alignment (translate.gapped)
   #number <- 1371
   for (number in sites.ok){
-    how.many.gaps.to.site <- sum(str_count(translate.gapped[1:number], "-")) # Count how many gaps until the site number.
+    how.many.gaps.to.site <- sum(stringr::str_count(translate.gapped[1:number], "-")) # Count how many gaps until the site number.
     new.number <- number-how.many.gaps.to.site # This should be equal to the tracing file
     translate.ungapped[new.number] == translate.unmasked[new.number] # sanity check
 
@@ -193,7 +207,7 @@ positions.provean <- function(gene.name,
 
 
     for (potencial.posicion in potenciales.posiciones) {
-      how.many.gaps.to.potencial.posicion <- sum(str_count(original.replaced.masked[1:potencial.posicion], "-"))
+      how.many.gaps.to.potencial.posicion <- sum(stringr::str_count(original.replaced.masked[1:potencial.posicion], "-"))
       if(potencial.posicion-how.many.gaps.to.potencial.posicion == new.number){
         original.number <- potencial.posicion
         original.letter <- original.replaced.masked[potencial.posicion]
@@ -211,7 +225,7 @@ positions.provean <- function(gene.name,
 
 
     calculate_mode <- function(x) {
-      uniqx <- unique(na.omit(x))
+      uniqx <- unique(stats::na.omit(x))
       uniqx[which.max(tabulate(match(x, uniqx)))]}
 
 
@@ -254,10 +268,10 @@ positions.provean <- function(gene.name,
 
 
   name.human<- paste0(output.directory, gene.name, "_human_AA.fas")
-  write.fasta(seqinr::translate(letters.masked), names = "homo_sapiens", file.out =  name.human)
+  seqinr::write.fasta(seqinr::translate(letters.masked), names = "homo_sapiens", file.out =  name.human)
 
   output.table <- beb.sites.human.newnumber[,c("Gene.Name", "ENSEMBL.Protein.ID","Original.number","Original.letter.check","Outgroup.BEBs")]
-  write.table(output.table, file = paste0(output.directory, gene.name, "_info_id.txt"), sep= "\t", row.names= F, quote = F)
+  utils::write.table(output.table, file = paste0(output.directory, gene.name, "_info_id.txt"), sep= "\t", row.names= F, quote = F)
   }
 
 

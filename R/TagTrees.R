@@ -16,15 +16,16 @@
 #' @importFrom stringr str_replace
 #' @importFrom ape write.tree
 #' @importFrom ape makeNodeLabel
+#' @importFrom utils read.csv
 #' @export extract.tag.tree
 #' @return A txt file in the Ha and Ho directories containing the trees tagged with #1 in the foreground lineage.
 
-extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.directory, Ho.directory)
-{
+extract.tag.tree <- function(gene.list, m0.directory, classifier.directory,
+                             Ha.directory, Ho.directory) {
 
   setwd(m0.directory)
   for (gene.name in gene.list) {
-    if (file.exists(paste0("mlc_M0_", gene.name)) == FALSE){
+    if (file.exists(paste0("mlc_M0_", gene.name)) == FALSE) {
       stop("File does not exist.")
     } else {  # Extract tree
     lines <- readLines(paste0("mlc_M0_", gene.name))
@@ -39,7 +40,6 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
     utiles2 <- trimws(utiles2)
 
     #Tag tree in foreground
-
     tr <- ape::read.tree(text = utiles2)
     #plot(tr, show.node.label = TRUE)
     tr3 <- tr
@@ -47,7 +47,7 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
     all.spp <- tr$tip.label
 
     output.classified.gene <- paste0(classifier.directory,gene.name, "_classification.csv")
-    csv <- read.csv(output.classified.gene, sep = ";")
+    csv <- utils::read.csv(output.classified.gene, sep = ";")
     colnames(csv) <- c("names", "class")
     csv[,"names"] <- tolower(csv[,"names"])
     csv <- csv[,c("names", "class")]
@@ -64,9 +64,9 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
       pattern <- paste0(fore.spp,": ", "[:digit:]", ".", "[:digit:]+")
       # pattern <- paste0("homo_sapiens: ", "[:digit:]", ".", "[:digit:]+")
       # str_view(utiles2, pattern)
-      to.tag <- str_extract(utiles2, pattern)
+      to.tag <- stringr::str_extract(utiles2, pattern)
       replacement <- paste0(to.tag, " #1")
-      utiles3 <- str_replace(utiles2, to.tag, replacement)
+      utiles3 <- stringr::str_replace(utiles2, to.tag, replacement)
       setwd(m0.directory)
       output.name <- paste0("tagged_mlc_M0_", gene.name, ".txt")
       writeLines(utiles3, con = output.name)
@@ -85,18 +85,7 @@ extract.tag.tree <- function(gene.list, m0.directory, classifier.directory, Ha.d
       file.copy(output.name, Ho.directory)
       file.copy(paste0(gene.name, ".phy"), Ha.directory)
       file.copy(paste0(gene.name, ".phy"), Ho.directory)
+      }
     }
-
-
-
-
-   # file.remove(output.name)
-  #  file.remove(paste0(gene.name, ".phy"))
-
-
-    }
-
   }
-
-
 }

@@ -1,3 +1,17 @@
+#' A PRANK aligner wrapper
+#'
+#' A function to align sequences with default prank settings.
+#'
+#' @param gene.list List of gene names (file names) to align
+#' @param input.file.directory Directory where the fasta files with sequences
+#'  are located
+#' @param output.file.directory Directory where the fasta files with
+#'  MSA will be written
+#' @param software.directory Directory where your prank executable is located
+#'
+#' @return An aligned fasta file
+#' @export prank.align
+
 prank.align <- function (gene.list, input.file.directory, output.file.directory, software.directory) {
   setwd(output.file.directory)
   file.copy(paste0(software.directory, "/prank"), output.file.directory)
@@ -6,7 +20,7 @@ prank.align <- function (gene.list, input.file.directory, output.file.directory,
   # more complicated:
   # prank.align <- paste0("./prank ","-d=", "'", custom.gene,"'"," -t=EnsemblTree.txt", " -o=" , gene.name , "_pranked" , " -translate", " -F", " -prunetree -once")
 
-  file.copy(paste0(software.directory, "/faTrans"), output.file.directory)
+ # file.copy(paste0(software.directory, "/faTrans"), output.file.directory)
 
 
 
@@ -32,12 +46,12 @@ prank.align <- function (gene.list, input.file.directory, output.file.directory,
 
 
     } else {
-      print("Error alignining gene")
+      stop("Error alignining gene. File does not exists. Check names and directories.")
     }
   }
   setwd(output.file.directory)
   file.remove(paste0(output.file.directory, "/prank"))
-  file.remove(paste0(output.file.directory, "/faTrans"))
+  #file.remove(paste0(output.file.directory, "/faTrans"))
 
 #  file.remove(paste0(software.directory, "EnsemblTree.txt"))
 

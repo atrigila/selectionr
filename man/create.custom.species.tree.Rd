@@ -14,7 +14,8 @@ create.custom.species.tree(
 \arguments{
 \item{gene.list}{A list of multiple sequence alignments names}
 
-\item{suffix}{Suffix/filetype of the files containing the multiple sequence alignments}
+\item{suffix}{Suffix/filetype of the files containing the multiple sequence
+alignments}
 
 \item{input.directory}{Where alignments are stored}
 
@@ -24,6 +25,8 @@ create.custom.species.tree(
 A txt file containing trees and a phylip-like fasta file.
 }
 \description{
-This function allows you to prune the general species tree according to the species present in your alignment. It also generates a phylip-like file for codeml input.
+This function allows you to prune the general species tree according to the
+species present in your alignment. It also generates a phylip-like file for
+codeml input.
 }
 \keyword{trees}

@@ -8,7 +8,9 @@
 #' @param summary.directory Directory summarized PAML files will be located
 #' @keywords summary
 #' @importFrom stringr str_extract
+#' @importFrom stats pchisq
 #' @import dplyr
+#' @import stringr
 #' @export summ.statistics.paml
 #' @return A table with the selected sites for each gene
 
@@ -56,11 +58,11 @@ summ.statistics.paml <- function (gene.list, Ho.directory, Ha.directory, summary
 
 
     lineas.utiles.ho <- lines.ho[pos.start.ho:pos.end.ho]
-    clean.useful.lines.ho <- str_extract(lineas.utiles.ho,"-[:digit:]+\\.[:digit:]+")
+    clean.useful.lines.ho <- stringr::str_extract(lineas.utiles.ho,"-[:digit:]+\\.[:digit:]+")
 
 
     lineas.utiles.ha <- lines.ha[pos.start.ha:pos.end.ha]
-    clean.useful.lines.ha <- str_extract(lineas.utiles.ha,"-[:digit:]+\\.[:digit:]+")
+    clean.useful.lines.ha <- stringr::str_extract(lineas.utiles.ha,"-[:digit:]+\\.[:digit:]+")
     options(digits = 11)
     clean.useful.lines.ha <- as.numeric(clean.useful.lines.ha)
 
@@ -77,7 +79,7 @@ summ.statistics.paml <- function (gene.list, Ho.directory, Ha.directory, summary
   summary.output <- summary.statistics.table %>%
     mutate("LRT" = 2*(summary.statistics.table[,2]-summary.statistics.table[,3]))
 
-  summary.output$p.value <- pchisq(summary.output$LRT, df=1, lower.tail = FALSE)
+  summary.output$p.value <- stats::pchisq(summary.output$LRT, df=1, lower.tail = FALSE)
 
 
   setwd(summary.directory)
@@ -106,7 +108,7 @@ summ.statistics.paml <- function (gene.list, Ho.directory, Ha.directory, summary
       pos.end.ha <- which(lines.end.array.ha == TRUE)
 
       lineas.utiles.ha <- lines.ha[pos.start.ha:pos.end.ha]
-      clean.useful.lines.ha <- str_extract(lineas.utiles.ha, ("\\d+\\s[:upper:]\\s\\d+\\.\\d+\\*"))
+      clean.useful.lines.ha <- stringr::str_extract(lineas.utiles.ha, ("\\d+\\s[:upper:]\\s\\d+\\.\\d+\\*"))
 
       clean.useful.lines.ha<- clean.useful.lines.ha[!is.na(clean.useful.lines.ha)]
       clean.useful.lines.ha <- paste(clean.useful.lines.ha, collapse = ", ")

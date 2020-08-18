@@ -138,7 +138,7 @@ function(server = "https://jan2020.rest.ensembl.org",
 
       } else {
 
-      correct <- selectionr:::write.FASTA(JSON.object = JSON.object, out.file = salida, gene.name =  gene.name, out.file2 = salida2)
+      correct <- write.FASTA(JSON.object = JSON.object, out.file = salida, gene.name =  gene.name, out.file2 = salida2)
       corrects <- rbind(corrects,correct) }
 
 
