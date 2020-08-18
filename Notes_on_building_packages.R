@@ -97,3 +97,4 @@ test("datasummary")
 # we’ll generate a Markdown README to demonstrate the process in our package using
 # usethis::use_readme_md(). This creates the README.md file and opens it up for you to edit.
 
+usethis::use_readme_md()

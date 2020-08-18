@@ -20,10 +20,84 @@ library(selectionr)
 
 # How to use the selectionr package
 
-## Download orthologues from Ensembl
+Please consider this is a personal package still under development and improvement. I am thankful for any constructive suggestion.
+
+## 1. Download orthologues from Ensembl
 To perform any selection analysis you'll first need a multiple sequences, such as 1-to-1 orthologues from a protein-coding gene. These are easily retrieved using the ensembl.orthologue.download function. This function requires the gene symbol or Ensembl gene ID from a target organism. The sequences for 1-to-1 orthologues will be searched against this database. Then, only species from the desired NCBI target taxon will be downloaded. In this example, we are downloading all primate 1-to-1 sequences, which correspond to the target_taxon 9443 to the current working directory. 
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE, include=TRUE}
 ensembl.orthologue.download(gene.name = "RBFOX1", target_taxon = 9443, download.directory = ".")
+```
+The file is written as a txt with the gene name and the suffix ".fasta".
+
+### 1.a. Select species (optional)
+If you'd like to select less species to do analysis but you'd like an equal representation from each clade, you could prioritize candidate species. The code is optimized for selecting 14 species.
+
+```{r eval=FALSE, include=TRUE}
+species.priority(gene.list = "RBFOX1", download.directory, orthologue.selection.directory, species_priority_table)
+
+```
+The code requires a table where you specify the preference for each species in the clade. For instance, imagine you are building a mammalian multiple species alignment where you'd like a representation for 14 species, equally distributed for each clade. For primates, you could prefer to have "human" as the representative species, but in case this sequence is not available in the downloaded fasta, it could be replaced by other member of the clade, such as "chimpanzee".
+
+## 2. Align sequences
+Use your preferred method for alignment. I've included a function that system-calls to a standard prank alignment from R. The function requires a directory where the executable for prank is.
+```{r eval=FALSE, include=TRUE}
+prank.align(gene.list, input.file.directory, output.file.directory , software.directory)
+
+```
+
+### 2.a. Re-arrange sequences (optional)
+Some aligners (such as prank) change the order of the species in the fasta file. This is not useful as we require a representative species to be the first species. In following analysis, the sequence of this first species is used for reference and reporting. This function will move the species on top of the alignment.
+
+```{r eval=FALSE, include=TRUE}
+species.top(gene.list, suffix, 	species.atop = "homo_sapiens", input.directory, output.directory)
+```
+
+
+## 3. Trim sequences
+Get rid of undesired regions of the MSA by using a trimming software. 
+```{r eval=FALSE, include=TRUE}
+trimal.clean(gene.list, alignment.directory, trim.output.directory, unaligned.directory, software.directory)
+
+```
+
+## 4. Make inputs for codeml
+```{r eval=FALSE, include=TRUE}
+create.custom.species.tree(gene.list, suffix, input.directory, tree.output.directory)
+
+```
+## 5. Classify species into foreground and background
+This function creates a csv where each species present in the alignment is classified either by belonging into the foreground or background.
+```{r eval=FALSE, include=TRUE}
+species.classifier(gene.list, suffix, input.directory, Taxon.id = "Homo", classification.output.directory)
+
+```
+
+## 6. Run initial M0 model 
+The M0 model used in PAML helps in the optimization of parameters used in positive selection tests. 
+```{r eval=FALSE, include=TRUE}
+run.m0.paml(gene.list, input.directory , output.directory, software.directory)
+
+```
+
+## 7. Tag trees from M0
+```{r eval=FALSE, include=TRUE}
+extract.tag.tree(gene.lis, m0.directory, classifier.directory, Ha.directory, Ho.directory) 
+
+```
+
+## 8. Run Ho and Ha codeml
+
+```{r eval=FALSE, include=TRUE}
+run.paml(gene.list, software.director, Ho.directory, Ha.directory)
+
+```
+
+
+## 9. Summarize results
+
+```{r eval=FALSE, include=TRUE}
+summary.statistics.paml(gene.list, Ho.directory, Ha.directory, summary.directory)
+
 ```
 
