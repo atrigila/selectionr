@@ -25,10 +25,12 @@ write.FASTA <- function(JSON.object, out.file, gene.name, out.file2)  {
   condition.filter <- homologues$type=="ortholog_one2one"
   tabla.one2one <- homologues[condition.filter,]
 
+  if(nrow(tabla.one2one) == 0) {
+    message(paste("No 1-to-1 orthologs for this gene in this target taxon:", target_taxon))
+  }
+
+
   tabla <- tabla.one2one$target
-
-
-
   columnas <- ncol(tabla)
   filas <-  nrow(tabla)
 
@@ -85,9 +87,11 @@ write.FASTA <- function(JSON.object, out.file, gene.name, out.file2)  {
 #' This function allows you to download 1-to-1 orthologues from Ensembl, given a target taxon.
 #'
 #'
-#' @param server Ensembl server
+#' @param server Ensembl server (version)
 #' @param gene.name A list of gene symbol names
-#' @param target_species Input target species to search for orthologues for your gene symbol. Defaults to human.
+#' @param type Type of gene name (either symbol or Ensembl Gene Name)
+#' @param target_species Input target species to search for orthologues
+#'  for your gene symbol. Defaults to NULL. Only required when gene symbol is provided.
 #' @param target_taxon The NCBI number of the species you'd like to download
 #' @param download.directory The directory where you'd like the downloaded multiple sequences to be stored
 #' @keywords download
@@ -96,41 +100,55 @@ write.FASTA <- function(JSON.object, out.file, gene.name, out.file2)  {
 #' @export ensembl.orthologue.download
 #' @return A txt file containing sequences and species names in fasta format.
 #' @examples
-#' ensembl.orthologue.download(gene.name = "RBFOX1",
-#'  target_taxon = "9443", download.directory = ".")
+#' \dontrun{ensembl.orthologue.download(gene.name = "RBFOX1", type = "gene.symbol",
+#' target_species = "human",
+#'  target_taxon = "9443", download.directory = ".")}
 
 
-#   library(jsonlite)
 
 ensembl.orthologue.download <-
 function(server = "https://jan2020.rest.ensembl.org",
-         gene.name, target_species = "human", target_taxon, download.directory) {
+         gene.name, type = "symbol",  target_species = NULL, target_taxon, download.directory) {
+
+  stopifnot(typeof(gene.name) == "character",
+            typeof(target_taxon) == "double", dir.exists(download.directory) == "TRUE")
 
 
   corrects <- data.frame("gene.name" = character(), "tabla.species" = character(), "tabla.protein_id" = character (), stringsAsFactors = FALSE)
   incorrects <- data.frame("error.name" = character(), stringsAsFactors = FALSE)
 
-    #server <- "https://jan2020.rest.ensembl.org"
+  if (type == "Ensembl") {
+    url.head <- paste("homology", "id", sep = "/")
+    url.taxon <- paste0('?target_taxon=',target_taxon,';')
+    url.tail <- 'content-type=application/json;sequence=cdna;type=orthologues'
+    query <- paste(server, url.head, gene.name, url.taxon, url.tail, sep = "/")
+    JSON.object <- tryCatch(jsonlite::fromJSON(query),
+                            error = function (e) {
+                              print(paste("This gene does not exist:", gene.name, "for type:", type))
+                              return(NULL)})
+    salida <- paste0(download.directory,"/", gene.name, ".fasta")
+    salida2 <- paste0(download.directory, "/", gene.name, ".csv")
+  }
+  if (type == "symbol") {
+    stopifnot(typeof(target_species) == "character")
     url.head <- '/homology/symbol/'
-  #  target_species <- 'human'
     url.taxon <-paste('?target_taxon=',target_taxon,';', sep="")
     url.tail <- 'content-type=application/json;sequence=cdna;type=orthologues'
     destfile.custom <- paste(gene.name, '.json', sep="")
     url.custom <- paste(server, url.head,target_species, "/", gene.name, url.taxon, url.tail, sep="")
     print(url.custom)
 
-    JSON.object <- tryCatch(fromJSON(url.custom),
+    JSON.object <- tryCatch(jsonlite::fromJSON(url.custom),
                             error = function (e) {
                               print(paste("This gene does not exist:", gene.name))
-                              return(NULL)}
-                              )
+                              return(NULL)} )
     salida <- paste0(download.directory,"/", gene.name, ".fasta")
     salida2 <- paste0(download.directory, "/", gene.name, ".csv")
-
+  }
 
 
     if (is.null(JSON.object)) {
-      print ("JSON object is null")
+      stop("JSON object is null")
       # HACER Error summary
       last.error <- nrow(incorrects)
       new.error <- last.error+1

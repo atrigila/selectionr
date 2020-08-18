@@ -7,17 +7,21 @@
 ensembl.orthologue.download(
   server = "https://jan2020.rest.ensembl.org",
   gene.name,
-  target_species = "human",
+  type = "symbol",
+  target_species = NULL,
   target_taxon,
   download.directory
 )
 }
 \arguments{
-\item{server}{Ensembl server}
+\item{server}{Ensembl server (version)}
 
 \item{gene.name}{A list of gene symbol names}
 
-\item{target_species}{Input target species to search for orthologues for your gene symbol. Defaults to human.}
+\item{type}{Type of gene name (either symbol or Ensembl Gene Name)}
+
+\item{target_species}{Input target species to search for orthologues
+for your gene symbol. Defaults to NULL. Only required when gene symbol is provided.}
 
 \item{target_taxon}{The NCBI number of the species you'd like to download}
 
@@ -30,7 +34,8 @@ A txt file containing sequences and species names in fasta format.
 This function allows you to download 1-to-1 orthologues from Ensembl, given a target taxon.
 }
 \examples{
-ensembl.orthologue.download(gene.name = "RBFOX1",
- target_taxon = "9443", download.directory = ".")
+\dontrun{ensembl.orthologue.download(gene.name = "RBFOX1", type = "gene.symbol",
+target_species = "human",
+ target_taxon = "9443", download.directory = ".")}
 }
 \keyword{download}
