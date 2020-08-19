@@ -2,7 +2,8 @@
 
 export(HmmClean)
 export(create.custom.species.tree)
-export(ensembl.orthologue.download)
+export(download.orthologues)
+export(export.fasta.out)
 export(extract.tag.tree)
 export(fast.classify)
 export(genomic.locator)

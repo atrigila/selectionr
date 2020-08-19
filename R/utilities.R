@@ -6,13 +6,13 @@
 #' @param list list; list obtained from download.orthologues be used as input
 #' @param output.directory character; directory to write a fasta file for each
 #'  element in the list
-#' @param no.sequences logical; if TRUE, returns a txt file with a list of genes
+#' @param no.sequences logical; if \code{TRUE}, returns a txt file with a list of genes
 #'  without sequences (Empty or No homologies)
 #'
 #' @return A fasta file
 #' @export
 #'
-#' @examples /dontrun{
+#' @examples \dontrun{
 #' export.fasta.out(ex.genes, "/mydirectory/", no.sequences = FALSE)}
 #'
 export.fasta.out <- function(list, output.directory, no.sequences = TRUE) {

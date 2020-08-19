@@ -98,6 +98,7 @@ test("datasummary")
 # usethis::use_readme_md(). This creates the README.md file and opens it up for you to edit.
 
 usethis::use_readme_md()
+usethis::use_readme_rmd()
 
 
 ## Book for software development: https://leanpub.com/msdr/read_full

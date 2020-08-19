@@ -7,28 +7,25 @@
 #' @param type character; one of "gene symbol" or "Ensembl"
 #' @param target_species character; Use with gene symbol only.
 #' @param target_taxon numeric; Taxon to download species.
-#' @param download.directory
 #'
 #' @return character stringr; A fasta file with sequences
 #' @export download.orthologues
 #'
-#' @example \dontrun{
+#' @examples \dontrun{
 #' x <- c("ENSAMXG00005000412", "ENSAMXG00005000517")
 #' ex.genes <- lapply(setNames(x,x), download.orthologues,
 #' server = "https://jan2020.rest.ensembl.org", type = "Ensembl",
-#' target_taxon = 7898 ,download.directory = "/Users/Usuario/Desktop/tests")}
+#' target_taxon = 7898)}
 #'
 #'
 
 download.orthologues <- function(server = "https://jan2020.rest.ensembl.org",
                                  gene.name,
                                  type = "symbol",  target_species = NULL,
-                                 target_taxon,
-                                 download.directory = "/Users/Usuario/Desktop/tests") {
+                                 target_taxon) {
 
   stopifnot(typeof(gene.name) == "character",
-            typeof(target_taxon) == "double",
-            dir.exists(download.directory) == "TRUE")
+            typeof(target_taxon) == "double")
 
   if (type == "Ensembl") {
     if(!is.null(target_species)){
@@ -53,7 +50,7 @@ download.orthologues <- function(server = "https://jan2020.rest.ensembl.org",
       message(paste("No homologies for this gene:", gene.name))
       return("No homologies")
     } else {
-      output_name_FASTA_file <- paste0(download.directory,"/", gene.name, ".fasta")
+      # output_name_FASTA_file <- paste0(download.directory,"/", gene.name, ".fasta")
       num.homologies <- length(table.of.query$data$homologies)
       for(num in num.homologies) {
         homologues <- table.of.query$data$homologies[[num]]
