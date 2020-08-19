@@ -1,165 +1,98 @@
-#' Write a fasta file from Ensembl Orthologues
+#' Download orthologues from Ensembl
 #'
-#' This non-exported function creates a fasta file from Ensembl orthologues information.
+#' An improved version to download orthologues from Ensembl.
 #'
+#' @param server Version of Ensembl to use
+#' @param gene.name character; gene name to download (as symbol or Ensembl gene ID)
+#' @param type character; one of "gene symbol" or "Ensembl"
+#' @param target_species character; Use with gene symbol only.
+#' @param target_taxon numeric; Taxon to download species.
+#' @param download.directory
 #'
-#' @param JSON.object JSON object to be parsed
-#' @param out.file Output file name
-#' @param gene.name Gene name to be parsed
-#' @param out.file2 Not used parameter
-#' @keywords writeFasta
-#' @importFrom jsonlite fromJSON
-#' @return A txt file containing sequences and species names in fasta format.
-
-
-write.FASTA <- function(JSON.object, out.file, gene.name, out.file2)  {
-  tabla_human <- JSON.object$data$homologies[[1]]$source
-  spp <- tabla_human$species[1]
-  sequence <- tabla_human$align_seq[1]
-  human_seq <- paste(">", spp,"\n", sequence, sep="")
-
-
-  result <- c(human_seq)
-
-  homologues <- JSON.object$data$homologies[[1]]
-  condition.filter <- homologues$type=="ortholog_one2one"
-  tabla.one2one <- homologues[condition.filter,]
-
-  if(nrow(tabla.one2one) == 0) {
-    message(paste("No 1-to-1 orthologs for this gene in this target taxon:", target_taxon))
-  }
-
-
-  tabla <- tabla.one2one$target
-  columnas <- ncol(tabla)
-  filas <-  nrow(tabla)
-
-  if(filas > 0) {
-    for (i in 1:filas) {
-      spp <- tabla$species[i]
-      sequence <- tabla$align_seq[i]
-
-      temp <- paste(">", spp,"\n", sequence, sep="")
-      result <- c(result, temp)
-      result <- gsub('-', '', result) }
-  } else {
-    tabla_human <- JSON.object$data$homologies[[2]]$source
-    spp <- tabla_human$species[1]
-    sequence <- tabla_human$align_seq[1]
-    human_seq <- paste(">", spp,"\n", sequence, sep="")
-    result <- c(human_seq)
-    tmp <- JSON.object$data$homologies[[2]]
-    condition.filter <- tmp$type=="ortholog_one2one"
-    tabla.one2one <- tmp[condition.filter,]
-
-    tabla <- tabla.one2one$target
-    for (i in 1:filas) {
-      spp <- tabla$species[i]
-      sequence <- tabla$align_seq[i]
-
-      temp <- paste(">", spp,"\n", sequence, sep="")
-      result <- c(result, temp)
-      result <- gsub('-', '', result) }
-  }
-
-
-
-  ##### Prueba output tabla con IDs & species
-  table.ids <- data.frame(tabla$species,tabla$protein_id)
-  table.ids$gene.name <- rep(gene.name, nrow(table.ids))
-  table.ids <- table.ids[,c(3,1,2)]
-
-
-  print(result)
-  write.table(result, out.file, quote = FALSE, row.names = FALSE, col.names = FALSE)
-  # write.table(table.ids, out.file2, quote = FALSE, row.names = FALSE, col.names = TRUE)
-
-
-  return(table.ids)
-
-  getwd()
-}
-
-
-
-#' Download Ensembl Orthologues
+#' @return character stringr; A fasta file with sequences
+#' @export download.orthologues
 #'
-#' This function allows you to download 1-to-1 orthologues from Ensembl, given a target taxon.
+#' @example \dontrun{
+#' x <- c("ENSAMXG00005000412", "ENSAMXG00005000517")
+#' ex.genes <- lapply(setNames(x,x), download.orthologues,
+#' server = "https://jan2020.rest.ensembl.org", type = "Ensembl",
+#' target_taxon = 7898 ,download.directory = "/Users/Usuario/Desktop/tests")}
 #'
 #'
-#' @param server Ensembl server (version)
-#' @param gene.name A list of gene symbol names
-#' @param type Type of gene name (either symbol or Ensembl Gene Name)
-#' @param target_species Input target species to search for orthologues
-#'  for your gene symbol. Defaults to NULL. Only required when gene symbol is provided.
-#' @param target_taxon The NCBI number of the species you'd like to download
-#' @param download.directory The directory where you'd like the downloaded multiple sequences to be stored
-#' @keywords download
-#' @importFrom Biostrings readDNAStringSet
-#' @importFrom jsonlite fromJSON
-#' @export ensembl.orthologue.download
-#' @return A txt file containing sequences and species names in fasta format.
-#' @examples
-#' \dontrun{ensembl.orthologue.download(gene.name = "RBFOX1", type = "gene.symbol",
-#' target_species = "human",
-#'  target_taxon = "9443", download.directory = ".")}
 
-
-
-ensembl.orthologue.download <-
-function(server = "https://jan2020.rest.ensembl.org",
-         gene.name, type = "symbol",  target_species = NULL, target_taxon, download.directory) {
+download.orthologues <- function(server = "https://jan2020.rest.ensembl.org",
+                                 gene.name,
+                                 type = "symbol",  target_species = NULL,
+                                 target_taxon,
+                                 download.directory = "/Users/Usuario/Desktop/tests") {
 
   stopifnot(typeof(gene.name) == "character",
-            typeof(target_taxon) == "double", dir.exists(download.directory) == "TRUE")
-
-
-  corrects <- data.frame("gene.name" = character(), "tabla.species" = character(), "tabla.protein_id" = character (), stringsAsFactors = FALSE)
-  incorrects <- data.frame("error.name" = character(), stringsAsFactors = FALSE)
+            typeof(target_taxon) == "double",
+            dir.exists(download.directory) == "TRUE")
 
   if (type == "Ensembl") {
-    url.head <- paste("homology", "id", sep = "/")
-    url.taxon <- paste0('?target_taxon=',target_taxon,';')
-    url.tail <- 'content-type=application/json;sequence=cdna;type=orthologues'
-    query <- paste(server, url.head, gene.name, url.taxon, url.tail, sep = "/")
-    JSON.object <- tryCatch(jsonlite::fromJSON(query),
-                            error = function (e) {
-                              print(paste("This gene does not exist:", gene.name, "for type:", type))
-                              return(NULL)})
-    salida <- paste0(download.directory,"/", gene.name, ".fasta")
-    salida2 <- paste0(download.directory, "/", gene.name, ".csv")
+    if(!is.null(target_species)){
+      warning(paste("Target species is not required when input is Ensembl gene id:", gene.name))
+    }
+    ext <- paste0("/homology/id/", gene.name,"?", 'target_taxon=',target_taxon, ";", 'sequence=cdna;type=orthologues')
   }
   if (type == "symbol") {
     stopifnot(typeof(target_species) == "character")
-    url.head <- '/homology/symbol/'
-    url.taxon <-paste('?target_taxon=',target_taxon,';', sep="")
-    url.tail <- 'content-type=application/json;sequence=cdna;type=orthologues'
-    destfile.custom <- paste(gene.name, '.json', sep="")
-    url.custom <- paste(server, url.head,target_species, "/", gene.name, url.taxon, url.tail, sep="")
-    print(url.custom)
-
-    JSON.object <- tryCatch(jsonlite::fromJSON(url.custom),
-                            error = function (e) {
-                              print(paste("This gene does not exist:", gene.name))
-                              return(NULL)} )
-    salida <- paste0(download.directory,"/", gene.name, ".fasta")
-    salida2 <- paste0(download.directory, "/", gene.name, ".csv")
+    ext <- paste0("/homology/symbol/",target_species,"/", gene.name, "?", 'sequence=cdna;type=orthologues')
   }
 
+  response <- httr::GET(paste(server, ext, sep = ""), httr::content_type("application/json"))
+  #httr::stop_for_status(response)
 
-    if (is.null(JSON.object)) {
-      stop("JSON object is null")
-      # HACER Error summary
-      last.error <- nrow(incorrects)
-      new.error <- last.error+1
-      incorrects[new.error,1]<-gene.name
+  if (is.null(response) | response$status_code == 400) {
+    message(paste0("Null response from querying: ", gene.name))
+    return("Empty")
+  } else {
+    table.of.query <- utils::head(jsonlite::fromJSON(jsonlite::toJSON(httr::content(response))))
+    if (length(table.of.query$data$homologies[[1]]) == 0) {
+      message(paste("No homologies for this gene:", gene.name))
+      return("No homologies")
+    } else {
+      output_name_FASTA_file <- paste0(download.directory,"/", gene.name, ".fasta")
+      num.homologies <- length(table.of.query$data$homologies)
+      for(num in num.homologies) {
+        homologues <- table.of.query$data$homologies[[num]]
+        condition.filter <- homologues$type=="ortholog_one2one"
+        tabla.one2one <- homologues[condition.filter,]
 
-      } else {
+        if(nrow(tabla.one2one) == 0) {
+          message(paste("No 1-to-1 orthologs for this gene in this target taxon:", target_taxon, "for", num, "homology"))
+        } else {
+          reference_species_table <- table.of.query$data$homologies[[num]]$source
+          reference_species_name <- reference_species_table$species[1]
+          reference_species_sequence <- reference_species_table$align_seq[1]
+          reference_species_geneid <- reference_species_table$id[1]
+          #  reference_species_protid <- reference_species_table$protein_id[1]
+          #  reference_species_target_taxon_id <- reference_species_table$taxon_id[1]
 
-      correct <- write.FASTA(JSON.object = JSON.object, out.file = salida, gene.name =  gene.name, out.file2 = salida2)
-      corrects <- rbind(corrects,correct) }
+          reference_species_as_1st_FASTA <- paste(">", reference_species_name,"\n", reference_species_sequence, sep="")
+          result <- c(reference_species_as_1st_FASTA)
 
+          tabla <- tabla.one2one$target
+          columnas <- ncol(tabla)
+          filas <-  nrow(tabla)
+          for (i in 1:filas) {
+            other_species_name <- tabla$species[i]
+            other_species_sequences <- tabla$align_seq[i]
+            #  other_species_geneid <- tabla$id[i]
+            #  other_species_protid <-tabla$protein_id[i]
+            #  other_species_taxonid <-tabla$taxon_id[i]
 
+            each_species_fasta <- paste(">", other_species_name,"\n", other_species_sequences, sep="")
+            result <- c(result, each_species_fasta)
+            result <- gsub('-', '', result)
+          }
+        }
+      }
+      return(list(fasta = result))
+    }
+  }
   Sys.sleep(1)
-
 }
+
+
