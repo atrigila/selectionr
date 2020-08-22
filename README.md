@@ -1,8 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-selectionr <img src="/Users/Usuario/selectionr/man/figures/hex.png" align="right" width="120" />
-================================================================================================
+selectionr
+==========
 
 <!-- badges: start -->
 <!-- badges: end -->
