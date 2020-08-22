@@ -13,6 +13,9 @@ use_vignette("selectionr_vignette", title = "selectionr")
 
 # Generate package documentation
 devtools::document("/Users/Usuario/selectionr/")
+devtools::build_manual()
+
+setwd("/Users/Usuario/selectionr")
 
 # Examine the contents of the man directory
 dir("/Users/Usuario/selectionr/man")
@@ -102,3 +105,8 @@ usethis::use_readme_rmd()
 
 
 ## Book for software development: https://leanpub.com/msdr/read_full
+
+
+##
+
+# Use snake case and lowercase. Modern R packages use function and variable names like geom_line(), bind_rows(), and unnest_token() where words are separated by underscores (_) and all characters are lowercase. Once upon a time words were commonly separated by periods (.) but that scheme can cause confusion with regard to generic functions (see the object oriented programming chapter for more information).

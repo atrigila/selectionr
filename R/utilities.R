@@ -1,7 +1,9 @@
 #' Export info from list as fasta
 #'
 #' Utility to export the sequences as
-#' a fasta file. A fasta file is created for each element in the list
+#' a fasta file. It also attempts to create a file on your
+#' desktop for each element of the gene list as  \code{*.fasta}.
+#'
 #'
 #' @param list list; list obtained from download.orthologues be used as input
 #' @param output.directory character; directory to write a fasta file for each
@@ -17,6 +19,8 @@
 #'
 export.fasta.out <- function(list, output.directory, no.sequences = TRUE) {
   stopifnot(dir.exists(output.directory))
+  stopifnot(typeof(list) == "list")
+
   no.info.genes <- c()
   for (i in 1:length(list)) {
     if (list[[i]] == "No homologies" | list[[i]] == "Empty") {

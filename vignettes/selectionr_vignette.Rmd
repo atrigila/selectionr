@@ -82,7 +82,7 @@ run.m0.paml(gene.list, input.directory , output.directory, software.directory)
 
 ## 7. Tag trees from M0
 ```{r eval=FALSE, include=TRUE}
-extract.tag.tree(gene.lis, m0.directory, classifier.directory, Ha.directory, Ho.directory) 
+extract.tag.tree(gene.list, m0.directory, classifier.directory, Ha.directory, Ho.directory) 
 
 ```
 

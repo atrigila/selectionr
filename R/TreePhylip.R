@@ -10,6 +10,7 @@
 #'   alignments
 #' @param input.directory Where alignments are stored
 #' @param tree.output.directory Where trees are going to be written
+#' @param ensembl_tree_version Compara Ensembl species tree
 #' @keywords trees
 #' @importFrom phytools read.newick
 #' @importFrom Biostrings readDNAStringSet
@@ -25,19 +26,12 @@
 
 
 create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.fas",
-                                       input.directory, tree.output.directory){
+                                       input.directory, tree.output.directory, ensembl_tree_version = "https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"){
 
-
-  # Be careful here! Read the complete tree from the Ensembl version you are using
-
-
-  setwd(tree.output.directory)
-  tree <- phytools::read.newick(url("https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"))
+  tree <- phytools::read.newick(url(ensembl_tree_version))   # Be careful here! Read the complete tree from the Ensembl version you are using
   tree$edge.length <- NULL
 
   for (gene.name in gene.list) {
-    print(gene.name)
-    setwd(input.directory)
     summary.ok <- data.frame("gene.name" = character(), stringsAsFactors = FALSE)
     summary.error <-  data.frame("gene.name" = character(), stringsAsFactors = FALSE)
 
@@ -51,14 +45,12 @@ create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.
     pruned.tree<-ape::drop.tip(tree, tree$tip.label[-stats::na.omit(match(species, tree$tip.label))])
     #ape::write.tree(pruned.tree)
     check <- length(species) == length(pruned.tree$tip.label)     #Sanity check species numb = tree tips numb = true
-    check
+    stopifnot(check)
     unrooted.pruned.tree <- ape::unroot(pruned.tree)
     destination.nwk <- paste(gene.name, '_pruned.tre', sep = "")
     file.destination.name <- paste0(tree.output.directory, destination.nwk)
 
     ape::write.tree(unrooted.pruned.tree, file = file.destination.name)
-
-    setwd(input.directory)
 
     width.seq <- dna@ranges@width[1]
     length.seq <- length(species)
@@ -75,8 +67,7 @@ create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.
       phylip.file <- paste0(tree.output.directory,output.name)
       utils::write.table(temp, phylip.file, col.names = FALSE, row.names = FALSE, quote = FALSE, eol = "\n")
 
-      print ("OK")
-      print(output.name)
+      print(paste("Succesfully processed", output.name))
 
       summary.gene.ok <-  data.frame("gene.name" = as.character(gene.name),stringsAsFactors = FALSE)
       summary.ok <- rbind(summary.ok,summary.gene.ok)

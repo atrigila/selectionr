@@ -8,7 +8,9 @@ create.custom.species.tree(
   gene.list,
   suffix = "ordered_nuc_trimmed.fas",
   input.directory,
-  tree.output.directory
+  tree.output.directory,
+ 
+    ensembl_tree_version = "https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"
 )
 }
 \arguments{
@@ -20,6 +22,8 @@ alignments}
 \item{input.directory}{Where alignments are stored}
 
 \item{tree.output.directory}{Where trees are going to be written}
+
+\item{ensembl_tree_version}{Compara Ensembl species tree}
 }
 \value{
 A txt file containing trees and a phylip-like fasta file.

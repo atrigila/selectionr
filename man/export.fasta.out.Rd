@@ -12,7 +12,7 @@ export.fasta.out(list, output.directory, no.sequences = TRUE)
 \item{output.directory}{character; directory to write a fasta file for each
 element in the list}
 
-\item{no.sequences}{logical; if TRUE, returns a txt file with a list of genes
+\item{no.sequences}{logical; if \code{TRUE}, returns a txt file with a list of genes
 without sequences (Empty or No homologies)}
 }
 \value{
@@ -20,7 +20,8 @@ A fasta file
 }
 \description{
 Utility to export the sequences as
-a fasta file. A fasta file is created for each element in the list
+a fasta file. It also attempts to create a file on your
+desktop for each element of the gene list as  \code{*.fasta}.
 }
 \examples{
 \dontrun{

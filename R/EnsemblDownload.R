@@ -21,12 +21,13 @@
 
 download.orthologues <- function(server = "https://jan2020.rest.ensembl.org",
                                  gene.name,
-                                 type = "symbol",  target_species = NULL,
+                                 type = c("symbol", "Ensembl"),  target_species = NULL,
                                  target_taxon) {
 
   stopifnot(typeof(gene.name) == "character",
             typeof(target_taxon) == "double")
 
+  type <- match.arg(type)
   if (type == "Ensembl") {
     if(!is.null(target_species)){
       warning(paste("Target species is not required when input is Ensembl gene id:", gene.name))

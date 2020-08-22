@@ -10,11 +10,12 @@ positions.provean(
   suffix,
   output.directory,
   classifier.directory,
-  beb.sites.directory
+  beb.sites.directory,
+  target_taxon = 9443
 )
 }
 \arguments{
-\item{gene.name}{Gene name (file name)}
+\item{gene.name}{Gene name (file name). Gene symbols from human only.}
 
 \item{input.directory}{Directory where the files are}
 

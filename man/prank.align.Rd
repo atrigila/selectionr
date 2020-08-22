@@ -5,16 +5,16 @@
 \title{A PRANK aligner wrapper}
 \usage{
 prank.align(
-  gene.list,
-  input.file.directory,
+  gene.name,
+  input.directory,
   output.file.directory,
   software.directory
 )
 }
 \arguments{
-\item{gene.list}{List of gene names (file names) to align}
+\item{gene.name}{List of gene names (file names) to align}
 
-\item{input.file.directory}{Directory where the fasta files with sequences
+\item{input.directory}{Directory where the fasta files with sequences
 are located}
 
 \item{output.file.directory}{Directory where the fasta files with
@@ -27,4 +27,8 @@ An aligned fasta file
 }
 \description{
 A function to align sequences with default prank settings.
+}
+\examples{
+\dontrun{prank.align(sample.alignment.2, input.directory = "~/data/",
+output.directory = "~/data/", software.directory = "/software")}
 }

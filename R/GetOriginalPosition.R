@@ -6,7 +6,7 @@
 #'  and are easily traceable. It also reports the most frequent aminoacid from the background
 #'  sequences (excluding gaps).
 #'
-#' @param gene.name Gene name (file name)
+#' @param gene.name Gene name (file name). Gene symbols from human only.
 #' @param input.directory Directory where the files are
 #' @param suffix Suffix for this file (".fasta", "_trimmed.fas", etc)
 #' @param output.directory Directory where the files will be written
@@ -33,7 +33,7 @@ positions.provean <- function(gene.name,
                               suffix,
                               output.directory ,
                               classifier.directory,
-                              beb.sites.directory) {
+                              beb.sites.directory, target_taxon = 9443) {
 
 
 
@@ -57,7 +57,7 @@ positions.provean <- function(gene.name,
 
   # This is slow but and there is probably a more efficient way to query the database. #
 
-  target_taxon <-9443 # This should be adapted to the set of species in use. It is ok in my case for mammals as I only need info for human.
+  #target_taxon <-9443 # This should be adapted to the set of species in use. It is ok in my case for mammals.
   url.head <- 'https://jul2019.rest.ensembl.org/homology/symbol/human/'
   url.taxon <-paste('?target_taxon=',target_taxon,';', sep="")
   url.tail <- 'content-type=application/json;type=orthologues'

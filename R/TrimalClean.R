@@ -13,7 +13,8 @@
 #' @return A cleaned fasta file
 #' @export trimal.clean
 
-trimal.clean <- function(gene.list, suffix = "_pranked.best.fas", alignment.directory, trim.output.directory, unaligned.directory, software.directory) {
+trimal.clean <- function(gene.list, suffix = "_pranked.best.fas", alignment.directory,
+                         trim.output.directory, unaligned.directory, software.directory) {
 
   file.copy(paste0(software.directory, "trimal"), alignment.directory)
 

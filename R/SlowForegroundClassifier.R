@@ -23,14 +23,10 @@ species.foreground.classifier <- function(gene.list, suffix = ".fasta",
                                           Taxon.id = "Mammalia", input.directory,
                                           output.directory) {
 
-
-  setwd(input.directory)
-
   for (gene.name in gene.list) {
-    setwd(input.directory)
       gen.start <- gene.name
       gen.end <- "_final_align_NT.aln"
-      gen.file <- paste0(gene.name, suffix)
+      gen.file <- paste0(input.directory, gene.name, suffix)
       dna <- Biostrings::readDNAStringSet(gen.file)
       tmp <- attributes(dna)$ranges
       species <- names(tmp)
@@ -51,9 +47,9 @@ species.foreground.classifier <- function(gene.list, suffix = ".fasta",
 
       httr::stop_for_status(r)
 
-      pepe <- (jsonlite::fromJSON(jsonlite::toJSON(httr::content(r))))
+      ensembl.forspp <- (jsonlite::fromJSON(jsonlite::toJSON(httr::content(r))))
 
-      if(Taxon.id %in% pepe$scientific_name == "TRUE"){
+      if(Taxon.id %in% ensembl.forspp$scientific_name == "TRUE"){
         target.taxon.id.species <- data.frame("names" = specie, "class" = "foreground")
         classification.spp <- rbind(target.taxon.id.species, classification.spp)
       } else {
