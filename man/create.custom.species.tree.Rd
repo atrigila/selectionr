@@ -10,7 +10,7 @@ create.custom.species.tree(
   input.directory,
   tree.output.directory,
  
-    ensembl_tree_version = "https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"
+    ensembl_tree_version = "https://raw.githubusercontent.com/\\n                                       Ensembl/ensembl-compara/release/\\n                                       97/scripts/pipeline/\\n                                       species_tree.vertebrates.branch_len.nw"
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ alignments}
 
 \item{tree.output.directory}{Where trees are going to be written}
 
-\item{ensembl_tree_version}{Compara Ensembl species tree}
+\item{ensembl_tree_version}{Compara Ensembl newick species tree}
 }
 \value{
 A txt file containing trees and a phylip-like fasta file.

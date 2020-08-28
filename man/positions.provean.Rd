@@ -27,7 +27,8 @@ positions.provean(
 as foreground and background}
 
 \item{beb.sites.directory}{Directory where the mlc with
-the BEB sites are located}
+the BEB sites are located
+@param target_taxon Reference species taxon number id (NCBI)}
 }
 \value{
 A table with Ensembl protein ID, original position and aminoacid and outgroup aminoacid

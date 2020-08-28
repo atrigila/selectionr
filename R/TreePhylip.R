@@ -27,8 +27,10 @@
 
 create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.fas",
                                        input.directory, tree.output.directory,
-                                       ensembl_tree_version = "https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/
-                                       97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"){
+                                       ensembl_tree_version = "https://raw.githubusercontent.com/
+                                       Ensembl/ensembl-compara/release/
+                                       97/scripts/pipeline/
+                                       species_tree.vertebrates.branch_len.nw"){
 
   tree <- phytools::read.newick(url(ensembl_tree_version))   # Be careful here! Read the complete tree from the Ensembl version you are using
   tree$edge.length <- NULL
