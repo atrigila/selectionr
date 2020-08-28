@@ -14,6 +14,7 @@
 #'  as foreground and background
 #' @param beb.sites.directory Directory where the mlc with
 #'  the BEB sites are located
+#'  @param target_taxon Reference species taxon number id (NCBI)
 #'
 #' @importFrom jsonlite fromJSON
 #' @importFrom Biostrings readDNAStringSet
