@@ -60,6 +60,7 @@ download.orthologues <- function(server = "https://jan2020.rest.ensembl.org",
 
         if(nrow(tabla.one2one) == 0) {
           message(paste("No 1-to-1 orthologs for this gene in this target taxon:", target_taxon, "for", num, "homology"))
+          return("No homologies")
         } else {
           reference_species_table <- table.of.query$data$homologies[[num]]$source
           reference_species_name <- reference_species_table$species[1]
