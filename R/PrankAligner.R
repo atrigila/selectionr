@@ -2,12 +2,12 @@
 #'
 #' A function to align sequences with default prank settings.
 #'
-#' @param gene.name List of gene names (file names) to align
-#' @param input.directory Directory where the fasta files with sequences
+#' @param gene.name character; List of gene names (file names) to align
+#' @param input.directory character; Directory where the fasta files with sequences
 #'  are located
-#' @param output.file.directory Directory where the fasta files with
+#' @param output.file.directory character; Directory where the fasta files with
 #'  MSA will be written
-#' @param software.directory Directory where your prank executable is located
+#' @param software.directory character; Directory where your prank executable is located
 #'
 #' @return An aligned fasta file
 #' @export prank.align
@@ -15,7 +15,7 @@
 #' output.directory = "~/data/", software.directory = "/software")}
 
 prank.align <- function (gene.name, input.directory, output.file.directory, software.directory) {
-  input.sequences <- paste0(input.directory, gene.name, '.fasta')
+  input.sequences <- paste0(input.directory, "/", gene.name, '.fasta')
   stopifnot(file.exists(input.sequences))
   file.copy(paste0(software.directory, "/prank"), output.file.directory)
 

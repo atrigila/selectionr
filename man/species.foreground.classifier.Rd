@@ -13,15 +13,15 @@ species.foreground.classifier(
 )
 }
 \arguments{
-\item{gene.list}{Gene name or file name}
+\item{gene.list}{character; Gene name or file name}
 
-\item{suffix}{Suffix of the file name}
+\item{suffix}{character; Suffix of the file name}
 
-\item{Taxon.id}{Taxon to check belonginess}
+\item{Taxon.id}{numeric; Taxon to check whether foreground species belong}
 
-\item{input.directory}{Directory where files are located}
+\item{input.directory}{character; Directory where files are located}
 
-\item{output.directory}{Directory where csv files will be written}
+\item{output.directory}{character; Directory where csv files will be written}
 }
 \value{
 A csv file with species and class (either foreground or background)

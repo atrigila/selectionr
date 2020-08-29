@@ -14,17 +14,17 @@ trimal.clean(
 )
 }
 \arguments{
-\item{gene.list}{Gene name or file name}
+\item{gene.list}{character; Gene name or file name}
 
-\item{suffix}{Suffix for gene names}
+\item{suffix}{character; Suffix for gene names}
 
-\item{alignment.directory}{Directory where alignments are located}
+\item{alignment.directory}{character; Directory where alignments are located}
 
-\item{trim.output.directory}{Directory where trimmed sequences will be written}
+\item{trim.output.directory}{character; Directory where trimmed sequences will be written}
 
-\item{unaligned.directory}{Directory where unaligned sequences are located}
+\item{unaligned.directory}{character; Directory where unaligned sequences are located}
 
-\item{software.directory}{Directory where Trimal executable is located}
+\item{software.directory}{character; Directory where Trimal executable is located}
 }
 \value{
 A cleaned fasta file

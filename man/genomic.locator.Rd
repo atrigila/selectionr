@@ -11,11 +11,11 @@ genomic.locator(
 )
 }
 \arguments{
-\item{server}{The REST Ensembl version you'd like to access}
+\item{server}{character; The REST Ensembl version you'd like to access}
 
-\item{ensembl.protein.ID}{Ensembl Protein ID}
+\item{ensembl.protein.ID}{character; Ensembl Protein ID}
 
-\item{original.number}{Original position to query}
+\item{original.number}{numeric; Original position to query}
 }
 \value{
 A data frame with gene name, start and end in human genomic positions.

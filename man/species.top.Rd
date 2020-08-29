@@ -13,15 +13,15 @@ species.top(
 )
 }
 \arguments{
-\item{gene.list}{The name of the gene}
+\item{gene.list}{character; The name of the gene}
 
-\item{suffix}{The filename/type of the fasta file}
+\item{suffix}{character; The filename/type of the fasta file}
 
-\item{species.atop}{The name of the species you want atop of the alignment (reference)}
+\item{species.atop}{character; The name of the species you want atop of the alignment (reference)}
 
-\item{input.directory}{The input directory where the fasta file is stored}
+\item{input.directory}{character; The input directory where the fasta file is stored}
 
-\item{output.directory}{The output directory where you want the new fasta}
+\item{output.directory}{character; The output directory where you want the new fasta}
 }
 \value{
 Returns a new fasta file with your desired species at top of the alignment

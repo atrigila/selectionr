@@ -5,12 +5,12 @@
 #' codeml input.
 #'
 #'
-#' @param gene.list A list of multiple sequence alignments names
-#' @param suffix Suffix/filetype of the files containing the multiple sequence
+#' @param gene.list character; A list of multiple sequence alignments names
+#' @param suffix character; Suffix/filetype of the files containing the multiple sequence
 #'   alignments
-#' @param input.directory Where alignments are stored
-#' @param tree.output.directory Where trees are going to be written
-#' @param ensembl_tree_version Compara Ensembl newick species tree
+#' @param input.directory character; Where alignments are stored
+#' @param tree.output.directory character; Where trees are going to be written
+#' @param ensembl_tree_version character; Compara Ensembl newick species tree github site
 #' @keywords trees
 #' @importFrom phytools read.newick
 #' @importFrom Biostrings readDNAStringSet
@@ -25,12 +25,9 @@
 
 
 
-create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.fas",
-                                       input.directory, tree.output.directory,
-                                       ensembl_tree_version = "https://raw.githubusercontent.com/
-                                       Ensembl/ensembl-compara/release/
-                                       97/scripts/pipeline/
-                                       species_tree.vertebrates.branch_len.nw"){
+create.custom.species.tree <- function(gene.list, suffix = "ordered_nuc_trimmed.fas", input.directory, tree.output.directory,
+                                       ensembl_tree_version = "https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/
+                                       97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"){
 
   tree <- phytools::read.newick(url(ensembl_tree_version))   # Be careful here! Read the complete tree from the Ensembl version you are using
   tree$edge.length <- NULL

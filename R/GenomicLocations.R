@@ -3,9 +3,9 @@
 #' This function allows you to get the geneomic location
 #'  from aminoacid sites obtained from Ensembl proteins.
 #'
-#' @param server The REST Ensembl version you'd like to access
-#' @param ensembl.protein.ID Ensembl Protein ID
-#' @param original.number Original position to query
+#' @param server character; The REST Ensembl version you'd like to access
+#' @param ensembl.protein.ID character; Ensembl Protein ID
+#' @param original.number numeric; Original position to query
 #'
 #' @importFrom httr GET content_type content
 #' @importFrom jsonlite fromJSON toJSON

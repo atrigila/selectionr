@@ -7,13 +7,13 @@
 summ.statistics.paml(gene.list, Ho.directory, Ha.directory, summary.directory)
 }
 \arguments{
-\item{gene.list}{Gene name (file name) of the MSA}
+\item{gene.list}{character; Gene name (file name) of the MSA}
 
-\item{Ho.directory}{Directory where PAML null hypothesis are located}
+\item{Ho.directory}{character; Directory where PAML null hypothesis are located}
 
-\item{Ha.directory}{Directory where PAML alternative hypothesis are located}
+\item{Ha.directory}{character; Directory where PAML alternative hypothesis are located}
 
-\item{summary.directory}{Directory summarized PAML files will be located}
+\item{summary.directory}{Dcharacter; irectory summarized PAML files will be located}
 }
 \value{
 A table with the selected sites for each gene

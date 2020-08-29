@@ -4,11 +4,11 @@
 #'
 #' Useful when some type of aligners rearrange species order. Works for DNA.
 #'
-#' @param gene.list The name of the gene
-#' @param suffix The filename/type of the fasta file
-#' @param species.atop The name of the species you want atop of the alignment (reference)
-#' @param input.directory The input directory where the fasta file is stored
-#' @param output.directory The output directory where you want the new fasta
+#' @param gene.list character; The name of the gene
+#' @param suffix character; The filename/type of the fasta file
+#' @param species.atop character; The name of the species you want atop of the alignment (reference)
+#' @param input.directory character; The input directory where the fasta file is stored
+#' @param output.directory character; The output directory where you want the new fasta
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings writeXStringSet
 #'

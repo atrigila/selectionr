@@ -1,9 +1,9 @@
 #' Run Paml Codeml
 #'
-#' @param gene.list A gene list or file name
-#' @param software.directory Directory where PAML Codeml executables are
-#' @param Ho.directory Directory where the null hypothesis files will be written
-#' @param Ha.directory Directory where the alternative hypothesis will be written
+#' @param gene.list character; A gene list or file name
+#' @param software.directory character; Directory where PAML Codeml executables are
+#' @param Ho.directory character; Directory where the null hypothesis files will be written
+#' @param Ha.directory character; Directory where the alternative hypothesis will be written
 #'
 #' @importFrom stringr str_replace
 #'

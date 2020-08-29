@@ -1,9 +1,9 @@
 #' Run PAML M0 model
 #'
-#' @param gene.list Gene name or file name
-#' @param input.directory Directory where newick and phylip files are located
-#' @param output.directory Directory where M0 optimized files will be written
-#' @param software.directory Directory where PAML software is locateed
+#' @param gene.list character; Gene name or file name
+#' @param input.directory character; Directory where newick and phylip files are located
+#' @param output.directory character; Directory where M0 optimized files will be written
+#' @param software.directory character; Directory where PAML software is locateed
 #'
 #' @importFrom stringr str_replace
 #'

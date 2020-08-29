@@ -28,7 +28,8 @@ export.fasta.out <- function(list, output.directory, no.sequences = TRUE) {
     } else {
       fasta <- list[[i]]$fasta
       name.element <- names(list[i])
-      utils::write.table(fasta, file = paste0(output.directory,"/", name.element,".fasta"))
+      utils::write.table(fasta, file = paste0(output.directory,"/", name.element,".fasta"),
+                         quote = F, row.names = F, col.names = F)
     }
   }
   if(no.sequences == TRUE) {

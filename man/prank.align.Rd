@@ -12,15 +12,15 @@ prank.align(
 )
 }
 \arguments{
-\item{gene.name}{List of gene names (file names) to align}
+\item{gene.name}{character; List of gene names (file names) to align}
 
-\item{input.directory}{Directory where the fasta files with sequences
+\item{input.directory}{character; Directory where the fasta files with sequences
 are located}
 
-\item{output.file.directory}{Directory where the fasta files with
+\item{output.file.directory}{character; Directory where the fasta files with
 MSA will be written}
 
-\item{software.directory}{Directory where your prank executable is located}
+\item{software.directory}{character; Directory where your prank executable is located}
 }
 \value{
 An aligned fasta file

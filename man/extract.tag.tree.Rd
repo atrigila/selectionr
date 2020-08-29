@@ -13,15 +13,15 @@ extract.tag.tree(
 )
 }
 \arguments{
-\item{gene.list}{A list of multiple sequence alignments names}
+\item{gene.list}{character; A list of multiple sequence alignments names}
 
-\item{m0.directory}{The directory where your PAML m0 files are located}
+\item{m0.directory}{character; The directory where your PAML m0 files are located}
 
-\item{classifier.directory}{The directory where csv files indicating which species are foreground and background.}
+\item{classifier.directory}{Tcharacter; he directory where csv files indicating which species are foreground and background.}
 
-\item{Ha.directory}{The directory where the alternative hypotesis of your PAML will be run}
+\item{Ha.directory}{character; The directory where the alternative hypotesis of your PAML will be run}
 
-\item{Ho.directory}{The directory where the null hypotesis of your PAML will be run}
+\item{Ho.directory}{character; The directory where the null hypotesis of your PAML will be run}
 }
 \value{
 A txt file in the Ha and Ho directories containing the trees tagged with #1 in the foreground lineage.

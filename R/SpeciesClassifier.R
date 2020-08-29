@@ -3,11 +3,11 @@
 #' Extract all unique species present in all alignments and assign to
 #' foreground and background sets if they belong to a certain taxon id or not
 #'
-#' @param gene.list Gene list (file name) of MSAs to check for species names
-#' @param suffix Suffix of the files (such as: ".fasta")
-#' @param input.directory Directory where the files for the MSA are located
-#' @param Taxon.id Foreground taxon to check for species belonging (as string)
-#' @param classification.output.directory Directory where the csv will be written
+#' @param gene.list character; Gene list (file name) of MSAs to check for species names
+#' @param suffix character; Suffix of the files (such as: ".fasta")
+#' @param input.directory character; Directory where the files for the MSA are located
+#' @param Taxon.id character; Foreground taxon to check if the species belongs to
+#' @param classification.output.directory character; Directory where the csv will be written
 #'
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom stringr word

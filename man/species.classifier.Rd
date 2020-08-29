@@ -13,15 +13,15 @@ species.classifier(
 )
 }
 \arguments{
-\item{gene.list}{Gene list (file name) of MSAs to check for species names}
+\item{gene.list}{character; Gene list (file name) of MSAs to check for species names}
 
-\item{suffix}{Suffix of the files (such as: ".fasta")}
+\item{suffix}{character; Suffix of the files (such as: ".fasta")}
 
-\item{input.directory}{Directory where the files for the MSA are located}
+\item{input.directory}{character; Directory where the files for the MSA are located}
 
-\item{Taxon.id}{Foreground taxon to check for species belonging (as string)}
+\item{Taxon.id}{character; Foreground taxon to check if the species belongs to}
 
-\item{classification.output.directory}{Directory where the csv will be written}
+\item{classification.output.directory}{character; Directory where the csv will be written}
 }
 \value{
 A csv with species names and class (either foreground or background)

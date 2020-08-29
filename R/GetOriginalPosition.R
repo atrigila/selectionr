@@ -6,15 +6,15 @@
 #'  and are easily traceable. It also reports the most frequent aminoacid from the background
 #'  sequences (excluding gaps).
 #'
-#' @param gene.name Gene name (file name). Gene symbols from human only.
-#' @param input.directory Directory where the files are
-#' @param suffix Suffix for this file (".fasta", "_trimmed.fas", etc)
-#' @param output.directory Directory where the files will be written
-#' @param classifier.directory Directory where the species were classified
+#' @param gene.name character; Gene name (file name). Gene symbols from human only.
+#' @param input.directory character; Directory where the files are
+#' @param suffix character; Suffix for this file (".fasta", "_trimmed.fas", etc)
+#' @param output.directory character; Directory where the files will be written
+#' @param classifier.directory character; Directory where the species were classified
 #'  as foreground and background
-#' @param beb.sites.directory Directory where the mlc with
+#' @param beb.sites.directory character; Directory where the mlc with
 #'  the BEB sites are located
-#'  @param target_taxon Reference species taxon number id (NCBI)
+#' @param target_taxon numeric; Reference species taxon number id (NCBI)
 #'
 #' @importFrom jsonlite fromJSON
 #' @importFrom Biostrings readDNAStringSet

@@ -3,12 +3,12 @@
 #'
 #'Input aligned sequences as AA, trim them and then backtranslate to cds
 #'
-#' @param gene.list Gene name or file name
-#' @param suffix Suffix for gene names
-#' @param alignment.directory Directory where alignments are located
-#' @param trim.output.directory Directory where trimmed sequences will be written
-#' @param unaligned.directory Directory where unaligned sequences are located
-#' @param software.directory Directory where Trimal executable is located
+#' @param gene.list character; Gene name or file name
+#' @param suffix character; Suffix for gene names
+#' @param alignment.directory character; Directory where alignments are located
+#' @param trim.output.directory character; Directory where trimmed sequences will be written
+#' @param unaligned.directory character; Directory where unaligned sequences are located
+#' @param software.directory character; Directory where Trimal executable is located
 #'
 #' @return A cleaned fasta file
 #' @export trimal.clean

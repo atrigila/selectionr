@@ -3,9 +3,9 @@
 #' This function allows you to classify which of your sequences will be tested as foreground lineages.
 #'
 #' This function makes use of a list of species that you consider to be foreground and outputs a csv for each gene you are testing.
-#' @param gene.list A list of multiple sequence alignments names
-#' @param suffix Suffix/filetype of the files containing the multiple sequence alignments
-#' @param foreground.species List of foreground species to be searched in the multiple sequences
+#' @param gene.list character; A list of multiple sequence alignments names
+#' @param suffix character; Suffix/filetype of the files containing the multiple sequence alignments
+#' @param foreground.species list; List of foreground species to be searched in the multiple sequences
 #' @keywords foreground
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom utils write.csv2

@@ -7,13 +7,13 @@
 run.paml(gene.list, software.directory, Ho.directory, Ha.directory)
 }
 \arguments{
-\item{gene.list}{A gene list or file name}
+\item{gene.list}{character; A gene list or file name}
 
-\item{software.directory}{Directory where PAML Codeml executables are}
+\item{software.directory}{character; Directory where PAML Codeml executables are}
 
-\item{Ho.directory}{Directory where the null hypothesis files will be written}
+\item{Ho.directory}{character; Directory where the null hypothesis files will be written}
 
-\item{Ha.directory}{Directory where the alternative hypothesis will be written}
+\item{Ha.directory}{character; Directory where the alternative hypothesis will be written}
 }
 \value{
 Several txt files after the codeml run (such as the mlc)

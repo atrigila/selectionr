@@ -7,13 +7,13 @@
 run.m0.paml(gene.list, input.directory, output.directory, software.directory)
 }
 \arguments{
-\item{gene.list}{Gene name or file name}
+\item{gene.list}{character; Gene name or file name}
 
-\item{input.directory}{Directory where newick and phylip files are located}
+\item{input.directory}{character; Directory where newick and phylip files are located}
 
-\item{output.directory}{Directory where M0 optimized files will be written}
+\item{output.directory}{character; Directory where M0 optimized files will be written}
 
-\item{software.directory}{Directory where PAML software is locateed}
+\item{software.directory}{character; Directory where PAML software is locateed}
 }
 \value{
 A mlc file along with txt others files written by PAML. We mostly

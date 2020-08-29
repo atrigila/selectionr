@@ -4,11 +4,11 @@
 #' evaluates if they belong to a certain taxon or not. For several files, it is more
 #' convenient to use the fast classifier.
 #'
-#' @param gene.list Gene name or file name
-#' @param suffix Suffix of the file name
-#' @param Taxon.id Taxon to check belonginess
-#' @param input.directory Directory where files are located
-#' @param output.directory Directory where csv files will be written
+#' @param gene.list character; Gene name or file name
+#' @param suffix character; Suffix of the file name
+#' @param Taxon.id numeric; Taxon to check whether foreground species belong
+#' @param input.directory character; Directory where files are located
+#' @param output.directory character; Directory where csv files will be written
 #'
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom stringr word
@@ -19,9 +19,8 @@
 #' @return A csv file with species and class (either foreground or background)
 #' @export species.foreground.classifier
 #'
-species.foreground.classifier <- function(gene.list, suffix = ".fasta",
-                                          Taxon.id = "Mammalia", input.directory,
-                                          output.directory) {
+species.foreground.classifier <- function(gene.list, suffix = ".fasta", Taxon.id = "Mammalia",
+                                          input.directory, output.directory) {
 
   for (gene.name in gene.list) {
       gen.start <- gene.name

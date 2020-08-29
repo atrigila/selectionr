@@ -3,11 +3,11 @@
 #' This function allows you to tag trees in foreground or background lineages.
 #'
 #'
-#' @param gene.list A list of multiple sequence alignments names
-#' @param m0.directory The directory where your PAML m0 files are located
-#' @param classifier.directory The directory where csv files indicating which species are foreground and background.
-#' @param Ha.directory The directory where the alternative hypotesis of your PAML will be run
-#' @param Ho.directory The directory where the null hypotesis of your PAML will be run
+#' @param gene.list character; A list of multiple sequence alignments names
+#' @param m0.directory character; The directory where your PAML m0 files are located
+#' @param classifier.directory Tcharacter; he directory where csv files indicating which species are foreground and background.
+#' @param Ha.directory character; The directory where the alternative hypotesis of your PAML will be run
+#' @param Ho.directory character; The directory where the null hypotesis of your PAML will be run
 #' @keywords tag.trees
 #' @importFrom phytools read.newick
 #' @importFrom Biostrings readDNAStringSet

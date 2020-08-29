@@ -4,10 +4,10 @@
 #'
 #' The function takes a table of species available in your MSA ranked by "priority" and selects those to create a new fasta file.
 #'
-#' @param gene.list Gene name (file name) of the MSA
-#' @param orthologue.selection.directory Output directory
-#' @param download.directory Original directory where files are stored
-#' @param species_priority_table Table specifying which species should be prioritized
+#' @param gene.list character; Gene name (file name) of the MSA
+#' @param orthologue.selection.directory character; Output directory
+#' @param download.directory character; Original directory where files are stored
+#' @param species_priority_table data frame; Table specifying which species should be prioritized
 #' @keywords subset
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom utils write.table write.csv read.csv

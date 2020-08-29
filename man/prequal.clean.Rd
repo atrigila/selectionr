@@ -13,15 +13,15 @@ prequal.clean(
 )
 }
 \arguments{
-\item{gene.list}{A list of gene names or file names.}
+\item{gene.list}{character; A list of gene names or file names.}
 
-\item{suffix}{Suffix for the file names (".fasta", etc)}
+\item{suffix}{character; Suffix for the file names (".fasta", etc)}
 
-\item{unaligned.directory}{Directory where unaligned sequences are stored}
+\item{unaligned.directory}{character; Directory where unaligned sequences are stored}
 
-\item{trim.output.directory}{Directory where cleaned sequences will be written}
+\item{trim.output.directory}{character; Directory where cleaned sequences will be written}
 
-\item{software.directory}{Directory where prequal is located}
+\item{software.directory}{character; Directory where prequal is located}
 }
 \value{
 A fasta file with trimmed sequences

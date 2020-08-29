@@ -7,11 +7,11 @@
 fast.classify(gene.list, suffix, foreground.species)
 }
 \arguments{
-\item{gene.list}{A list of multiple sequence alignments names}
+\item{gene.list}{character; A list of multiple sequence alignments names}
 
-\item{suffix}{Suffix/filetype of the files containing the multiple sequence alignments}
+\item{suffix}{character; Suffix/filetype of the files containing the multiple sequence alignments}
 
-\item{foreground.species}{List of foreground species to be searched in the multiple sequences}
+\item{foreground.species}{list; List of foreground species to be searched in the multiple sequences}
 }
 \value{
 A csv file containing species names and classification into foreground or background lineages. Useful for the \link[selectionr]{extract.tag.tree}.

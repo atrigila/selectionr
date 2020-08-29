@@ -1,10 +1,10 @@
 #' Prequal cleaner wrapper
 #'
-#' @param gene.list A list of gene names or file names.
-#' @param suffix Suffix for the file names (".fasta", etc)
-#' @param unaligned.directory Directory where unaligned sequences are stored
-#' @param trim.output.directory Directory where cleaned sequences will be written
-#' @param software.directory Directory where prequal is located
+#' @param gene.list character; A list of gene names or file names.
+#' @param suffix character; Suffix for the file names (".fasta", etc)
+#' @param unaligned.directory character; Directory where unaligned sequences are stored
+#' @param trim.output.directory character; Directory where cleaned sequences will be written
+#' @param software.directory character; Directory where prequal is located
 #'
 #' @return A fasta file with trimmed sequences
 #' @export prequal.clean

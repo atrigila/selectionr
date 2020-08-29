@@ -10,20 +10,20 @@ create.custom.species.tree(
   input.directory,
   tree.output.directory,
  
-    ensembl_tree_version = "https://raw.githubusercontent.com/\\n                                       Ensembl/ensembl-compara/release/\\n                                       97/scripts/pipeline/\\n                                       species_tree.vertebrates.branch_len.nw"
+    ensembl_tree_version = "https://raw.githubusercontent.com/Ensembl/ensembl-compara/release/\\n                                       97/scripts/pipeline/species_tree.vertebrates.branch_len.nw"
 )
 }
 \arguments{
-\item{gene.list}{A list of multiple sequence alignments names}
+\item{gene.list}{character; A list of multiple sequence alignments names}
 
-\item{suffix}{Suffix/filetype of the files containing the multiple sequence
+\item{suffix}{character; Suffix/filetype of the files containing the multiple sequence
 alignments}
 
-\item{input.directory}{Where alignments are stored}
+\item{input.directory}{character; Where alignments are stored}
 
-\item{tree.output.directory}{Where trees are going to be written}
+\item{tree.output.directory}{character; Where trees are going to be written}
 
-\item{ensembl_tree_version}{Compara Ensembl newick species tree}
+\item{ensembl_tree_version}{character; Compara Ensembl newick species tree github site}
 }
 \value{
 A txt file containing trees and a phylip-like fasta file.

@@ -13,15 +13,15 @@ HmmClean(
 )
 }
 \arguments{
-\item{gene.list}{A gene list or file names}
+\item{gene.list}{character; A gene list or file names}
 
-\item{suffix_AA}{Suffix from the file containing the MSA in AA}
+\item{suffix_AA}{character; Suffix from the file containing the MSA in AA}
 
-\item{suffix_NT}{Suffix from the file containing the MSA in NT}
+\item{suffix_NT}{character; Suffix from the file containing the MSA in NT}
 
-\item{input.align.directory}{Directory where the alignments are located}
+\item{input.align.directory}{character; Directory where the alignments are located}
 
-\item{output.clean.directory}{Directory where cleaned files will be written}
+\item{output.clean.directory}{character; Directory where cleaned files will be written}
 }
 \value{
 A fasta file and other files containing info about cleaned and masked NT

@@ -12,13 +12,13 @@ prioritize.species(
 )
 }
 \arguments{
-\item{gene.list}{Gene name (file name) of the MSA}
+\item{gene.list}{character; Gene name (file name) of the MSA}
 
-\item{orthologue.selection.directory}{Output directory}
+\item{orthologue.selection.directory}{character; Output directory}
 
-\item{download.directory}{Original directory where files are stored}
+\item{download.directory}{character; Original directory where files are stored}
 
-\item{species_priority_table}{Table specifying which species should be prioritized}
+\item{species_priority_table}{data frame; Table specifying which species should be prioritized}
 }
 \value{
 A fasta file with the selected species.

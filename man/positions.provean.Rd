@@ -15,20 +15,21 @@ positions.provean(
 )
 }
 \arguments{
-\item{gene.name}{Gene name (file name). Gene symbols from human only.}
+\item{gene.name}{character; Gene name (file name). Gene symbols from human only.}
 
-\item{input.directory}{Directory where the files are}
+\item{input.directory}{character; Directory where the files are}
 
-\item{suffix}{Suffix for this file (".fasta", "_trimmed.fas", etc)}
+\item{suffix}{character; Suffix for this file (".fasta", "_trimmed.fas", etc)}
 
-\item{output.directory}{Directory where the files will be written}
+\item{output.directory}{character; Directory where the files will be written}
 
-\item{classifier.directory}{Directory where the species were classified
+\item{classifier.directory}{character; Directory where the species were classified
 as foreground and background}
 
-\item{beb.sites.directory}{Directory where the mlc with
-the BEB sites are located
-@param target_taxon Reference species taxon number id (NCBI)}
+\item{beb.sites.directory}{character; Directory where the mlc with
+the BEB sites are located}
+
+\item{target_taxon}{numeric; Reference species taxon number id (NCBI)}
 }
 \value{
 A table with Ensembl protein ID, original position and aminoacid and outgroup aminoacid

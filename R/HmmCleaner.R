@@ -2,11 +2,11 @@
 #'
 #' Calls HMMCleaner and cleans a fasta file (in development)
 #'
-#' @param gene.list A gene list or file names
-#' @param suffix_AA Suffix from the file containing the MSA in AA
-#' @param suffix_NT Suffix from the file containing the MSA in NT
-#' @param input.align.directory Directory where the alignments are located
-#' @param output.clean.directory Directory where cleaned files will be written
+#' @param gene.list character; A gene list or file names
+#' @param suffix_AA character; Suffix from the file containing the MSA in AA
+#' @param suffix_NT character; Suffix from the file containing the MSA in NT
+#' @param input.align.directory character; Directory where the alignments are located
+#' @param output.clean.directory character; Directory where cleaned files will be written
 #'
 #' @importFrom stringr str_remove str_replace str_replace_all
 #' @importFrom utils write.table

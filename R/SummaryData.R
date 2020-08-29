@@ -2,10 +2,10 @@
 #'
 #' This function allows you to summarize several mlc files from PAML into a single table.
 #'
-#' @param gene.list Gene name (file name) of the MSA
-#' @param Ho.directory Directory where PAML null hypothesis are located
-#' @param Ha.directory Directory where PAML alternative hypothesis are located
-#' @param summary.directory Directory summarized PAML files will be located
+#' @param gene.list character; Gene name (file name) of the MSA
+#' @param Ho.directory character; Directory where PAML null hypothesis are located
+#' @param Ha.directory character; Directory where PAML alternative hypothesis are located
+#' @param summary.directory Dcharacter; irectory summarized PAML files will be located
 #' @keywords summary
 #' @importFrom stringr str_extract
 #' @importFrom stats pchisq
